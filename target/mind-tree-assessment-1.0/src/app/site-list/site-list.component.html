@@ -1,0 +1,8 @@
+<md-list class="site-list">
+  <md-list-item *ngFor="let site of sites" [@fadeInOut]="'in'">
+    <sites-run-site-detail 
+        [site]="site" 
+        (siteDeleted)="deleteSite($event)">
+    </sites-run-site-detail>
+  </md-list-item>
+</md-list>

@@ -6,12 +6,12 @@
     <packaging>war</packaging>
     <version>1.0</version>
 
-    <groupId>run.sites</groupId>
-    <artifactId>sites-run</artifactId>
+    <groupId>mindtree</groupId>
+    <artifactId>mind-tree-assessment</artifactId>
 
     <properties>
         <appengine.app.version>1</appengine.app.version>
-        <appengine.target.version>1.9.42</appengine.target.version>
+        <appengine.target.version>1.9.46</appengine.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

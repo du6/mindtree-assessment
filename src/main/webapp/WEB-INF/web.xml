@@ -3,36 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <servlet>
-        <servlet-name>SetAnnouncementServlet</servlet-name>
-        <servlet-class>main.java.run.sites.servlet.SetAnnouncementServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SetAnnouncementServlet</servlet-name>
-        <url-pattern>/crons/set_announcement</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>main.java.run.sites.spi.SitesRunApi</param-value>
+            <param-value>main.java.mindtree.spi.MindTreeApi</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
     </servlet-mapping>
-
-    <filter>
-        <filter-name>redirectFilter</filter-name>
-        <filter-class>main.java.run.sites.filter.RedirectFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>redirectFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
     <security-constraint>
         <web-resource-collection>

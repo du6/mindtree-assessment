@@ -1,0 +1,258 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/87_ho-noCwOZcMFKhL0dYx12F4s\"",
+ "discoveryVersion": "v1",
+ "id": "mindTreeApi:v1",
+ "name": "mindTreeApi",
+ "version": "v1",
+ "description": "API for the Mind Tree Backend application.",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://mind-tree-assessment.appspot.com/_ah/api/",
+ "rpcUrl": "https://mind-tree-assessment.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "KnowledgeNode": {
+   "id": "KnowledgeNode",
+   "type": "object",
+   "properties": {
+    "children": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "name": {
+     "type": "string"
+    },
+    "websafeKey": {
+     "type": "string"
+    }
+   }
+  },
+  "KnowledgeNodeCollection": {
+   "id": "KnowledgeNodeCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "KnowledgeNode"
+     }
+    }
+   }
+  },
+  "KnowledgeNodeForm": {
+   "id": "KnowledgeNodeForm",
+   "type": "object",
+   "properties": {
+    "name": {
+     "type": "string"
+    }
+   }
+  },
+  "Profile": {
+   "id": "Profile",
+   "type": "object",
+   "properties": {
+    "displayName": {
+     "type": "string"
+    },
+    "mainEmail": {
+     "type": "string"
+    },
+    "userId": {
+     "type": "string"
+    }
+   }
+  },
+  "ProfileForm": {
+   "id": "ProfileForm",
+   "type": "object",
+   "properties": {
+    "displayName": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "mindTreeApi.createKnowledgeNode": {
+   "id": "mindTreeApi.createKnowledgeNode",
+   "parameters": {
+    "resource": {
+     "$ref": "KnowledgeNodeForm"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "KnowledgeNode"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.deleteKnowledgeNode": {
+   "id": "mindTreeApi.deleteKnowledgeNode",
+   "parameters": {
+    "websafeKnowledgeNodeKey": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "websafeKnowledgeNodeKey"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.getKnowledgeNode": {
+   "id": "mindTreeApi.getKnowledgeNode",
+   "allowGet": true,
+   "parameters": {
+    "websafeKnowledgeNodeKey": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "websafeKnowledgeNodeKey"
+   ],
+   "returns": {
+    "$ref": "KnowledgeNode"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.getKnowledgeNodesCreated": {
+   "id": "mindTreeApi.getKnowledgeNodesCreated",
+   "parameters": {
+    "limit": {
+     "type": "integer",
+     "default": "10",
+     "format": "int32"
+    }
+   },
+   "returns": {
+    "$ref": "KnowledgeNodeCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.getProfile": {
+   "id": "mindTreeApi.getProfile",
+   "allowGet": true,
+   "returns": {
+    "$ref": "Profile"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.saveProfile": {
+   "id": "mindTreeApi.saveProfile",
+   "parameters": {
+    "resource": {
+     "$ref": "ProfileForm"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Profile"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.updateKnowledgeNode": {
+   "id": "mindTreeApi.updateKnowledgeNode",
+   "parameters": {
+    "resource": {
+     "$ref": "KnowledgeNodeForm"
+    },
+    "websafeKnowledgeNodeKey": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "websafeKnowledgeNodeKey"
+   ],
+   "returns": {
+    "$ref": "KnowledgeNode"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}
