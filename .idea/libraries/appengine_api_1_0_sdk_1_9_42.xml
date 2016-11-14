@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="appengine-api-1.0-sdk-1.9.42">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Software/appengine-api-1.0-sdk-1.9.42.jar!/" />
+      <root url="jar://$USER_HOME$/Software/appengine-api-1.2.0.jar!/" />
+      <root url="jar://$USER_HOME$/Software/appengine-endpoints-1.9.28.jar!/" />
+      <root url="jar://$USER_HOME$/Software/guava.jar!/" />
+      <root url="jar://$USER_HOME$/Software/javacv.jar!/" />
+      <root url="jar://$USER_HOME$/Software/javax-inject.jar!/" />
+      <root url="jar://$USER_HOME$/Software/joda-time-2.9.4.jar!/" />
+      <root url="jar://$USER_HOME$/Software/objectify-5.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Software/appengine-api-1.0-sdk-1.9.42.jar!/" />
+    </SOURCES>
+  </library>
+</component>

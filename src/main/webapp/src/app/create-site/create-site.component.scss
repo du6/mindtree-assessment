@@ -1,0 +1,37 @@
+.create-site-form {
+  md-input {
+    font-size: 16px;
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .md-hint {
+    color: red;
+  }
+
+  .action-buttons {
+    margin-top: 20px;
+  }
+
+  .save-button {
+    margin-left: 20px;
+  }
+
+  .name-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .name-input {
+      flex: auto;
+    }
+
+    .name-status-label {
+      min-width: 200px;
+    }
+
+    .name-conflict-message {
+      color: red;
+    }
+  }
+}

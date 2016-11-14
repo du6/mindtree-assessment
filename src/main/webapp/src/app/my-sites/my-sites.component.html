@@ -1,0 +1,16 @@
+<md-card>
+  <md-card-title>Name a Site</md-card-title>
+  <md-divider></md-divider>
+  <md-card-content>
+    <sites-run-create-site [mode]="mode" (siteSaved)="onSiteSaved($event)"></sites-run-create-site>
+  </md-card-content>
+</md-card>
+
+<md-card>
+  <md-card-title>My Sites</md-card-title>
+  <md-divider></md-divider>
+  <md-card-content>
+    <md-spinner *ngIf="loading"></md-spinner>
+    <sites-run-site-list *ngIf="!loading" [mode]="mode" [sites]="sites" (siteDeleted)="onSiteDeleted($event)"></sites-run-site-list>
+  </md-card-content>
+</md-card>
