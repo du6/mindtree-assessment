@@ -26,6 +26,7 @@ import javax.inject.Named;
 
 import main.java.mindtree.Constants;
 import main.java.mindtree.domain.KnowledgeNode;
+import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
 import main.java.mindtree.domain.AppEngineUser;
 import main.java.mindtree.domain.Profile;
@@ -228,12 +229,82 @@ public class MindTreeApi {
         // Fetch user's Profile.
         Key<KnowledgeNode> knowledgeNodeKey = factory().allocateId(KnowledgeNode.class);
         KnowledgeNode knowledgeNode =
-            new KnowledgeNode(knowledgeNodeKey.getId(), knowledgeNodeForm.getName(), userId);
+            new KnowledgeNode(
+                knowledgeNodeKey.getId(),
+                knowledgeNodeForm.getName(),
+                knowledgeNodeForm.getDescription(),
+                userId);
         ofy().save().entity(knowledgeNode).now();
         return knowledgeNode;
       }
     });
     return knowledgeNode;
+  }
+
+  /**
+   * Creates an edge that connects a parent node and a child node
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param edgeForm An EdgeForm object representing user's inputs.
+   * @throws NotFoundException when there is no knowledge with the given key.
+   * @throws ForbiddenException when the parent and child nodes are the same.
+   */
+  @ApiMethod(
+      name = "createEdge",
+      path = "createEdge",
+      httpMethod = HttpMethod.POST)
+  public void createEdge(final User user, final EdgeForm edgeForm)
+      throws NotFoundException, ForbiddenException {
+    if (edgeForm.getChildKey().equals(edgeForm.getParentKey())) {
+      throw (new ForbiddenException("Cannot create an edge from and to the same node."));
+    }
+
+    Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
+    KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
+    if (parentNode == null) {
+      throw (new NotFoundException("Parent knowledge node not found with the key: "
+          + parentKnowledgeNodeKey));
+    }
+
+    Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getChildKey());
+    KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
+    if (childNode == null) {
+      throw (new NotFoundException("Child knowledge node not found with the key: "
+          + childKnowledgeNodeKey));
+    }
+
+    parentNode.addChild(edgeForm.getChildKey());
+    childNode.addParent(edgeForm.getParentKey());
+  }
+
+  /**
+   * Deletes an edge that connects a parent node and a child node
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param edgeForm An EdgeForm object representing user's inputs.
+   * @throws NotFoundException when there is no knowledge with the given key.
+   */
+  @ApiMethod(
+      name = "deleteEdge",
+      path = "deleteEdge",
+      httpMethod = HttpMethod.POST)
+  public void deleteEdge(final User user, final EdgeForm edgeForm) throws NotFoundException {
+    Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
+    KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
+    if (parentNode == null) {
+      throw (new NotFoundException("Parent knowledge node not found with the key: "
+          + parentKnowledgeNodeKey));
+    }
+
+    Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
+    KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
+    if (childNode == null) {
+      throw (new NotFoundException("Child knowledge node not found with the key: "
+          + childKnowledgeNodeKey));
+    }
+
+    parentNode.deleteChild(edgeForm.getChildKey());
+    childNode.deleteParent(edgeForm.getParentKey());
   }
 
   /**
@@ -313,7 +384,6 @@ public class MindTreeApi {
   }
 
   /**
-   * TODO(du6): remove from parents
    * Deletes a knowledge node object with the given web safe key.
    * @param user A user who invokes this method, null when the user is not signed in.
    * @param websafeKnowledgeNodeKey The String representation of the key.
@@ -344,7 +414,17 @@ public class MindTreeApi {
           !knowledgeNode.getCreatedBy().equals(userId)) {
         throw new ForbiddenException("Only the owner can delete the knowledge node.");
       }
+      deleteKnowledgeNodeFromParents(knowledgeNode);
       ofy().delete().key(knowledgeNodeKey).now();
+    }
+  }
+
+  // TODO(du6): do this in task queue
+  private void deleteKnowledgeNodeFromParents(KnowledgeNode knowledgeNode) {
+    for (String parentKey : knowledgeNode.getParents()) {
+      Key<KnowledgeNode> knowledgeNodeKey = Key.create(parentKey);
+      KnowledgeNode parentNode = ofy().load().key(knowledgeNodeKey).now();
+      parentNode.deleteChild(knowledgeNode.getWebsafeKey());
     }
   }
 
@@ -357,8 +437,8 @@ public class MindTreeApi {
    * @throws UnauthorizedException when the user is not signed in.
    */
   @ApiMethod(
-      name = "getKnowledgeNodesCreated",
-      path = "getKnowledgeNodesCreated",
+      name = "getKnowledgeNodesCreatedBy",
+      path = "getKnowledgeNodesCreatedBy",
       httpMethod = HttpMethod.POST
   )
   public List<KnowledgeNode> getKnowledgeNodesCreated(
@@ -376,5 +456,24 @@ public class MindTreeApi {
   private static Query<KnowledgeNode> queryByOwner(final String userId) {
     final Filter ownerFilter = new FilterPredicate("createdBy", FilterOperator.EQUAL, userId);
     return ofy().load().type(KnowledgeNode.class).filter(ownerFilter);
+  }
+
+  /**
+   * Returns all knowledge nodes.
+   * In order to receive the websafeKnowledgeNodeKey via the JSON params, uses a POST method.
+   *
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @return all knowledge nodes.
+   */
+  @ApiMethod(
+      name = "getAllKnowledgeNodes",
+      path = "getAllKnowledgeNodes",
+      httpMethod = HttpMethod.POST
+  )
+  public List<KnowledgeNode> getAllKnowledgeNodes(
+      final User user,
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit)
+      throws UnauthorizedException {
+    return ofy().load().type(KnowledgeNode.class).limit(limit).list();
   }
 }

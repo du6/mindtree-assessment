@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/87_ho-noCwOZcMFKhL0dYx12F4s\"",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/j8mqER2saZ4412kweOe0Heyx5iE\"",
  "discoveryVersion": "v1",
  "id": "mindTreeApi:v1",
  "name": "mindTreeApi",
@@ -69,6 +69,18 @@
   }
  },
  "schemas": {
+  "EdgeForm": {
+   "id": "EdgeForm",
+   "type": "object",
+   "properties": {
+    "childKey": {
+     "type": "string"
+    },
+    "parentKey": {
+     "type": "string"
+    }
+   }
+  },
   "KnowledgeNode": {
    "id": "KnowledgeNode",
    "type": "object",
@@ -79,12 +91,17 @@
       "type": "string"
      }
     },
-    "id": {
-     "type": "string",
-     "format": "int64"
+    "description": {
+     "type": "string"
     },
     "name": {
      "type": "string"
+    },
+    "parents": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
     },
     "websafeKey": {
      "type": "string"
@@ -107,6 +124,9 @@
    "id": "KnowledgeNodeForm",
    "type": "object",
    "properties": {
+    "description": {
+     "type": "string"
+    },
     "name": {
      "type": "string"
     }
@@ -138,6 +158,20 @@
   }
  },
  "methods": {
+  "mindTreeApi.createEdge": {
+   "id": "mindTreeApi.createEdge",
+   "parameters": {
+    "resource": {
+     "$ref": "EdgeForm"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "mindTreeApi.createKnowledgeNode": {
    "id": "mindTreeApi.createKnowledgeNode",
    "parameters": {
@@ -155,6 +189,20 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
+  "mindTreeApi.deleteEdge": {
+   "id": "mindTreeApi.deleteEdge",
+   "parameters": {
+    "resource": {
+     "$ref": "EdgeForm"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
   "mindTreeApi.deleteKnowledgeNode": {
    "id": "mindTreeApi.deleteKnowledgeNode",
    "parameters": {
@@ -166,6 +214,22 @@
    "parameterOrder": [
     "websafeKnowledgeNodeKey"
    ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "mindTreeApi.getAllKnowledgeNodes": {
+   "id": "mindTreeApi.getAllKnowledgeNodes",
+   "parameters": {
+    "limit": {
+     "type": "integer",
+     "default": "10",
+     "format": "int32"
+    }
+   },
+   "returns": {
+    "$ref": "KnowledgeNodeCollection"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]
@@ -189,8 +253,8 @@
     "https://www.googleapis.com/auth/userinfo.email"
    ]
   },
-  "mindTreeApi.getKnowledgeNodesCreated": {
-   "id": "mindTreeApi.getKnowledgeNodesCreated",
+  "mindTreeApi.getKnowledgeNodesCreatedBy": {
+   "id": "mindTreeApi.getKnowledgeNodesCreatedBy",
    "parameters": {
     "limit": {
      "type": "integer",

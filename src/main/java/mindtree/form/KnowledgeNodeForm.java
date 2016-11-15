@@ -10,7 +10,16 @@ public class KnowledgeNodeForm {
    */
   private String name;
 
+  /**
+   * The description of the node.
+   */
+  private String description;
+
   public String getName() {
     return name;
+  }
+
+  public String getDescription() {
+    return description;
   }
 }
