@@ -1,13 +1,15 @@
 {
   "project": {
-    "version": "1.0.0-beta.11-webpack.8",
-    "name": "material2-app"
+    "version": "1.0.0-beta.19-3",
+    "name": "mindtree"
   },
   "apps": [
     {
       "root": "src",
       "outDir": "dist",
-      "assets": "assets",
+      "assets": [
+        "assets"
+      ],
       "index": "index.html",
       "main": "main.ts",
       "test": "test.ts",
@@ -21,8 +23,8 @@
       "scripts": [],
       "environments": {
         "source": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
-        "dev": "environments/environment.dev.ts"
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
       }
     }
   ],
@@ -41,6 +43,13 @@
   "defaults": {
     "styleExt": "css",
     "prefixInterfaces": false,
-    "lazyRoutePrefix": "+"
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
   }
 }

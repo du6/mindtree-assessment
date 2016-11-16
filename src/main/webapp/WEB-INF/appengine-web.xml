@@ -10,7 +10,6 @@
 
     <resource-files>
         <exclude path="/node_modules/**" />
-        <exclude path="/dist/**" />
     </resource-files>
 
     <static-files>

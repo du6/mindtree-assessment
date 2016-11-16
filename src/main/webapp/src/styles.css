@@ -5,15 +5,6 @@ body {
   margin: 0;
 }
 
-footer {
-  background-color: mediumpurple;
-  bottom: 0;
-  padding: 20px;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-}
-
 md-card {
   margin: 20px;
 }

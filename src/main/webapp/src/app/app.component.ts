@@ -1,32 +1,26 @@
-import {Location} from '@angular/common';
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {AuthService} from './services/auth.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
-  selector: 'sites-run-app',
+  selector: 'mind-tree-app',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class SitesRunAppComponent {
-  constructor(private router_: Router, private location_: Location, private auth_: AuthService) {
-    if (this.isSignedIn()) {
-      this.location_.go('/_my');
-    } else {
-      this.location_.go('/');
-    }
+export class MindTreeAppComponent {
+  constructor(private router_: Router, private auth_: AuthService) {
   }
-
+  
   isSignedIn(): boolean {
     return this.auth_.isSignedIn();
   }
 
   signIn() {
-    this.auth_.signIn().then(() => this.router_.navigate(['/_my']));
+    this.auth_.signIn();
   }
 
   signOut() {
-    this.auth_.signOut().then(() => this.router_.navigate(['/']));
+    this.auth_.signOut();
   }
 }
