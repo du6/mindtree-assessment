@@ -53,16 +53,21 @@ export class HomeComponent {
     const edgeDataSet = new vis.DataSet(edges);
 
     // create a network
-    var container = document.getElementById('knowledge-graph-drawer');
+    const container = document.getElementById('knowledge-graph-drawer');
 
     // provide the data in the vis format
-    var data = {
+    const data = {
         nodes: nodeDataSet,
         edges: edgeDataSet,
     };
-    var options = {};
+
+    const options = {
+      edges: {
+        arrows: 'to'
+      }
+    };
 
     // initialize your network!
-    var network = new vis.Network(container, data, options);
+    const network = new vis.Network(container, data, options);
   }
 }

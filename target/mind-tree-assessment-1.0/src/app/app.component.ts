@@ -15,4 +15,12 @@ export class MindTreeAppComponent {
   isSignedIn(): boolean {
     return this.auth_.isSignedIn();
   }
+
+  signIn() {
+    this.auth_.signIn();
+  }
+
+  signOut() {
+    this.auth_.signOut();
+  }
 }

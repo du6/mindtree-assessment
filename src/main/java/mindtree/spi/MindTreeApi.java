@@ -8,8 +8,6 @@ import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.api.server.spi.response.UnauthorizedException;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -45,7 +43,6 @@ import static main.java.mindtree.service.OfyService.ofy;
     description = "API for the Mind Tree Backend application.")
 public class MindTreeApi {
 
-  private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private static final String DEFAULT_QUERY_LIMIT = "10";
   private static final Logger LOG = Logger.getLogger(MindTreeApi.class.getName());
 

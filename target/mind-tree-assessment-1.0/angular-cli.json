@@ -1,7 +1,7 @@
 {
   "project": {
     "version": "1.0.0-beta.19-3",
-    "name": "ng-project"
+    "name": "mindtree"
   },
   "apps": [
     {
@@ -17,9 +17,13 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "material2-app-theme.scss",
+        "../node_modules/vis/dist/vis.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/vis/dist/vis.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
@@ -42,10 +46,6 @@
   "defaults": {
     "styleExt": "css",
     "prefixInterfaces": false,
-    "inline": {
-      "style": false,
-      "template": false
-    },
     "spec": {
       "class": false,
       "component": true,
