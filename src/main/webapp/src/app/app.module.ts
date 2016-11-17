@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MindTreeAppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { KnowledgeGraphComponent } from './knowledgegraph/knowledge-graph.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
 import { ToastService } from './services/toast.service';
@@ -23,7 +24,7 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   providers: [AuthService, GapiService, ToastService],
-  declarations: [MindTreeAppComponent, HomeComponent],
+  declarations: [MindTreeAppComponent, HomeComponent, KnowledgeGraphComponent],
   bootstrap: [MindTreeAppComponent],
 })
 export class MindTreeAppModule { }

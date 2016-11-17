@@ -1,3 +1,4 @@
+import { ANY_STATE } from '@angular/core/src/animation/animation_constants';
 import { Injectable } from '@angular/core';
 
 import { KnowledgeNode } from '../common/knowledge-node';
@@ -23,5 +24,26 @@ export class GapiService {
                 resolve(<KnowledgeNode[]> resp.result.items);
               }
             }));
+  }
+
+  addNode(name?: string, description?: string): Promise<KnowledgeNode> {
+    return this.gapi_.client.mindTreeApi.createKnowledgeNode({
+      name: name,
+      description: description,
+    });
+  }
+
+  addEdge(fromNode: string, toNode: string): Promise<any> {
+    return this.gapi_.client.mindTreeApi.createEdge({
+      parentKey: fromNode,
+      childKey: toNode,
+    });
+  }
+
+  deleteEdge(fromNode: string, toNode: string): Promise<any> {
+    return this.gapi_.client.mindTreeApi.deleteEdge({
+      parentKey: fromNode,
+      childKey: toNode,
+    });
   }
 }
