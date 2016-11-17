@@ -57,13 +57,19 @@ public class KnowledgeNode {
    * Constructor.
    * @param name the name of the node
    */
-  public KnowledgeNode(Long id, String name, String description, String createdBy) {
+  public KnowledgeNode(
+      Long id,
+      String name,
+      String description,
+      String createdBy,
+      Set<String> children,
+      Set<String> parents) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.createdBy = createdBy;
-    this.children = new HashSet<>();
-    this.parents = new HashSet<>();
+    this.children = new HashSet<>(children);
+    this.parents = new HashSet<>(parents);
   }
 
   public void updateWithKnowledgeNodeForm(KnowledgeNodeForm knowledgeNodeForm) {
@@ -76,9 +82,6 @@ public class KnowledgeNode {
    * @param childKey
    */
   public void addChild(String childKey) {
-    if (this.children == null) {
-      this.children = new HashSet<>();
-    }
     this.children.add(childKey);
   }
 
@@ -95,9 +98,6 @@ public class KnowledgeNode {
    * @param parentKey
    */
   public void addParent(String parentKey) {
-    if (this.parents == null) {
-      this.parents = new HashSet<>();
-    }
     this.parents.add(parentKey);
   }
 

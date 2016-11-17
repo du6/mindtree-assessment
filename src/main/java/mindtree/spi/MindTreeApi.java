@@ -17,6 +17,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Query;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -230,7 +231,9 @@ public class MindTreeApi {
                 knowledgeNodeKey.getId(),
                 knowledgeNodeForm.getName(),
                 knowledgeNodeForm.getDescription(),
-                userId);
+                userId,
+                new HashSet<String>(),
+                new HashSet<String>());
         ofy().save().entity(knowledgeNode).now();
         return knowledgeNode;
       }
