@@ -19,7 +19,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     MaterialModule.forRoot(),
-    RouterModule.forRoot(routes, { useHash: false }),
+    RouterModule.forRoot(routes, { useHash: true }),
     FormsModule,
     ReactiveFormsModule,
   ],

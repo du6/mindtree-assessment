@@ -3,6 +3,7 @@ import { GapiService } from '../services/gapi.service';
 import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 
 import { KnowledgeNode } from '../common/knowledge-node';
+import { AddNodeDialog } from './add-node-dialog.component';
 
 export class Node {
   id: string;
@@ -78,6 +79,19 @@ export class KnowledgeGraphComponent {
       },
 
       manipulation: {
+        addNode: (nodeData, callback) => {
+          this.openAddNodeDialog(callback);
+        },
+
+        deleteNode: (params, callback) => {
+          if (!params) {
+            return;
+          }
+          if (params.nodes && params.nodes.length == 1) {
+            this.gapi_.deleteNode(params.nodes[0]).then(() => callback(params));
+          }
+        },
+
         addEdge: (edgeData, callback) => {
           if (edgeData.from !== edgeData.to) {
             edgeData.id = this.createEdgeId(edgeData.from, edgeData.to);
@@ -122,6 +136,21 @@ export class KnowledgeGraphComponent {
   private onEdgeClicked_(edgeKey: String) {
   }
 
+  openAddNodeDialog(addNodeCallback: any) {
+    let dialogRef = this._dialog.open(AddNodeDialog);
+    dialogRef.afterClosed().subscribe(node => {
+      if (node) {
+        this.gapi_.addNode(node.name, node.description).then((data: any) => {
+          const knowledgeNode = data.result;
+          const nodeData = {
+            id: knowledgeNode.websafeKey,
+            label: knowledgeNode.name,
+          }
+          addNodeCallback(nodeData);
+        }, (error) => this._snackbar.open('Failed to add a node', 'DISMISS'));
+      }
+    })
+  }
 
   private onAddEdge_(edgeData: Edge) {
     this.gapi_.addEdge(edgeData.from, edgeData.to).then(()=>{}, (error) => {
