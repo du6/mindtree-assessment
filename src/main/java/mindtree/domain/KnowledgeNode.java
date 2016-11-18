@@ -45,12 +45,12 @@ public class KnowledgeNode {
   /**
    * The child nodes' web safe keys which the current node depends on.
    */
-  private Set<String> children;
+  private Set<String> children = new HashSet<>();
 
   /**
    * The parent nodes' web safe keys who depend on the current node.
    */
-  private Set<String> parents;
+  private Set<String> parents = new HashSet<>();
 
   /**
    * //TODO(du6): use builder pattern
@@ -66,8 +66,6 @@ public class KnowledgeNode {
     this.name = name;
     this.description = description;
     this.createdBy = createdBy;
-    this.children = new HashSet<>();
-    this.parents = new HashSet<>();
   }
 
   public void updateWithKnowledgeNodeForm(KnowledgeNodeForm knowledgeNodeForm) {

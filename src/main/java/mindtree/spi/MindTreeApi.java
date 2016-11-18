@@ -17,7 +17,6 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Query;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -252,27 +251,44 @@ public class MindTreeApi {
       path = "createEdge",
       httpMethod = HttpMethod.POST)
   public void createEdge(final User user, final EdgeForm edgeForm)
-      throws NotFoundException, ForbiddenException {
+      throws NotFoundException, ForbiddenException, ConflictException {
     if (edgeForm.getChildKey().equals(edgeForm.getParentKey())) {
       throw (new ForbiddenException("Cannot create an edge from and to the same node."));
     }
 
-    Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
-    KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
-    if (parentNode == null) {
-      throw (new NotFoundException("Parent knowledge node not found with the key: "
-          + parentKnowledgeNodeKey));
-    }
+    TxResult<KnowledgeNode> parent = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
+      @Override
+      public TxResult<KnowledgeNode> run() {
+        Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
+        KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
+        if (parentNode == null) {
+          return new TxResult<>(
+              new NotFoundException("No knowledge node found with the key: "
+                  + parentKnowledgeNodeKey));
+        }
+        parentNode.addChild(edgeForm.getChildKey());
+        ofy().save().entity(parentNode).now();
+        return new TxResult<>(parentNode);
+      }
+    });
+    parent.getResult();
 
-    Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getChildKey());
-    KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
-    if (childNode == null) {
-      throw (new NotFoundException("Child knowledge node not found with the key: "
-          + childKnowledgeNodeKey));
-    }
-
-    parentNode.addChild(edgeForm.getChildKey());
-    childNode.addParent(edgeForm.getParentKey());
+    TxResult<KnowledgeNode> child = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
+      @Override
+      public TxResult<KnowledgeNode> run() {
+        Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getChildKey());
+        KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
+        if (childNode == null) {
+          return new TxResult<>(
+              new NotFoundException("No knowledge node found with the key: "
+                  + childKnowledgeNodeKey));
+        }
+        childNode.addParent(edgeForm.getParentKey());
+        ofy().save().entity(childNode).now();
+        return new TxResult<>(childNode);
+      }
+    });
+    child.getResult();
   }
 
   /**
@@ -286,23 +302,41 @@ public class MindTreeApi {
       name = "deleteEdge",
       path = "deleteEdge",
       httpMethod = HttpMethod.POST)
-  public void deleteEdge(final User user, final EdgeForm edgeForm) throws NotFoundException {
-    Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
-    KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
-    if (parentNode == null) {
-      throw (new NotFoundException("Parent knowledge node not found with the key: "
-          + parentKnowledgeNodeKey));
-    }
+  public void deleteEdge(final User user, final EdgeForm edgeForm)
+      throws NotFoundException, ForbiddenException, ConflictException {
+    TxResult<KnowledgeNode> parent = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
+      @Override
+      public TxResult<KnowledgeNode> run() {
+        Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
+        KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
+        if (parentNode == null) {
+          return new TxResult<>(
+              new NotFoundException("No knowledge node found with the key: "
+                  + parentKnowledgeNodeKey));
+        }
+        parentNode.deleteChild(edgeForm.getChildKey());
+        ofy().save().entity(parentNode).now();
+        return new TxResult<>(parentNode);
+      }
+    });
+    parent.getResult();
 
-    Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getParentKey());
-    KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
-    if (childNode == null) {
-      throw (new NotFoundException("Child knowledge node not found with the key: "
-          + childKnowledgeNodeKey));
-    }
-
-    parentNode.deleteChild(edgeForm.getChildKey());
-    childNode.deleteParent(edgeForm.getParentKey());
+    TxResult<KnowledgeNode> child = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
+      @Override
+      public TxResult<KnowledgeNode> run() {
+        Key<KnowledgeNode> childKnowledgeNodeKey = Key.create(edgeForm.getChildKey());
+        KnowledgeNode childNode = ofy().load().key(childKnowledgeNodeKey).now();
+        if (childNode == null) {
+          return new TxResult<>(
+              new NotFoundException("No knowledge node found with the key: "
+                  + childKnowledgeNodeKey));
+        }
+        childNode.deleteParent(edgeForm.getParentKey());
+        ofy().save().entity(childNode).now();
+        return new TxResult<>(childNode);
+      }
+    });
+    child.getResult();
   }
 
   /**
