@@ -429,7 +429,7 @@ public class MindTreeApi {
   public void deleteKnowledgeNode(
       final User user,
       @Named("websafeKnowledgeNodeKey") final String websafeKnowledgeNodeKey)
-      throws NotFoundException, UnauthorizedException, ForbiddenException {
+      throws NotFoundException, UnauthorizedException, ForbiddenException, ConflictException {
     final String userId = getUserId(user);
     // If not signed in, throw a 401 error.
     if (user == null) {
@@ -441,22 +441,37 @@ public class MindTreeApi {
       throw new NotFoundException("No knowledge node found with key: " + websafeKnowledgeNodeKey);
     } else {
       // If the user is not the owner, throw a 403 error.
-      Profile profile = ofy().load().key(Key.create(Profile.class, userId)).now();
-      if (profile == null ||
-          !knowledgeNode.getCreatedBy().equals(userId)) {
-        throw new ForbiddenException("Only the owner can delete the knowledge node.");
-      }
+      // TODO(du6): add the comment back
+//      Profile profile = ofy().load().key(Key.create(Profile.class, userId)).now();
+//      if (profile == null ||
+//          !knowledgeNode.getCreatedBy().equals(userId)) {
+//        throw new ForbiddenException("Only the owner can delete the knowledge node.");
+//      }
       deleteKnowledgeNodeFromParents(knowledgeNode);
       ofy().delete().key(knowledgeNodeKey).now();
     }
   }
 
   // TODO(du6): do this in task queue
-  private void deleteKnowledgeNodeFromParents(KnowledgeNode knowledgeNode) {
-    for (String parentKey : knowledgeNode.getParents()) {
-      Key<KnowledgeNode> knowledgeNodeKey = Key.create(parentKey);
-      KnowledgeNode parentNode = ofy().load().key(knowledgeNodeKey).now();
-      parentNode.deleteChild(knowledgeNode.getWebsafeKey());
+  private void deleteKnowledgeNodeFromParents(final KnowledgeNode knowledgeNode)
+      throws NotFoundException, ForbiddenException, ConflictException{
+    for (final String parentKey : knowledgeNode.getParents()) {
+      TxResult<KnowledgeNode> parent = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
+        @Override
+        public TxResult<KnowledgeNode> run() {
+          Key<KnowledgeNode> parentKnowledgeNodeKey = Key.create(parentKey);
+          KnowledgeNode parentNode = ofy().load().key(parentKnowledgeNodeKey).now();
+          if (parentNode == null) {
+            return new TxResult<>(
+                new NotFoundException("No knowledge node found with the key: "
+                    + parentKnowledgeNodeKey));
+          }
+          parentNode.deleteChild(knowledgeNode.getWebsafeKey());
+          ofy().save().entity(parentNode).now();
+          return new TxResult<>(parentNode);
+        }
+      });
+      parent.getResult();
     }
   }
 
