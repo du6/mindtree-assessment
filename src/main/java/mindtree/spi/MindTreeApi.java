@@ -231,9 +231,7 @@ public class MindTreeApi {
                 knowledgeNodeKey.getId(),
                 knowledgeNodeForm.getName(),
                 knowledgeNodeForm.getDescription(),
-                userId,
-                new HashSet<String>(),
-                new HashSet<String>());
+                userId);
         ofy().save().entity(knowledgeNode).now();
         return knowledgeNode;
       }

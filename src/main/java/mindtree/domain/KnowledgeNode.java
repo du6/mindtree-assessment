@@ -61,15 +61,13 @@ public class KnowledgeNode {
       Long id,
       String name,
       String description,
-      String createdBy,
-      Set<String> children,
-      Set<String> parents) {
+      String createdBy) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.createdBy = createdBy;
-    this.children = new HashSet<>(children);
-    this.parents = new HashSet<>(parents);
+    this.children = new HashSet<>();
+    this.parents = new HashSet<>();
   }
 
   public void updateWithKnowledgeNodeForm(KnowledgeNodeForm knowledgeNodeForm) {

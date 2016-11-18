@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { GapiService } from '../services/gapi.service';
+import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 
 import { KnowledgeNode } from '../common/knowledge-node';
 
@@ -22,7 +23,7 @@ export class Edge {
 export class KnowledgeGraphComponent {
   knowledgeGraph: any;
 
-  constructor(private gapi_: GapiService) {
+  constructor(private gapi_: GapiService, private _dialog: MdDialog, private _snackbar: MdSnackBar) {
   }
 
   ngAfterViewInit() {
@@ -90,7 +91,7 @@ export class KnowledgeGraphComponent {
             return;
           }
           if (params.edges && params.edges.length == 1) {
-            this.deleteEdge(params.edges[0]).then(() => callback(params));
+            this.deleteEdge_(params.edges[0]).then(() => callback(params));
           }
         }
       }
@@ -112,8 +113,6 @@ export class KnowledgeGraphComponent {
       this.onNodeClicked_(params.nodes[0]);
     } else if (params.edges && params.edges.length == 1) {
       this.onEdgeClicked_(params.edges[0]);
-    } else {
-      this.knowledgeGraph.addEdgeMode();
     }
   }
 
@@ -126,13 +125,13 @@ export class KnowledgeGraphComponent {
 
   private onAddEdge_(edgeData: Edge) {
     this.gapi_.addEdge(edgeData.from, edgeData.to).then(()=>{}, (error) => {
-      // TODO(du6): display toast error
+      this._snackbar.open('Failed to add an edge', 'DISMISS');
       this.knowledgeGraph.selectEdges([edgeData.id]);
       this.knowledgeGraph.deleteSelected();
     });
   }
 
-  private deleteEdge(edgeId: string): Promise<any> {
+  private deleteEdge_(edgeId: string): Promise<any> {
     const nodeKeys = edgeId.split(',');
     return this.gapi_.deleteEdge(nodeKeys[0], nodeKeys[1]);
   }

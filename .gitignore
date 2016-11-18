@@ -12,7 +12,7 @@
 hs_err_pid*
 
 .idea/*
-target/*
+target/**
 src/main/webapp/node_modules/*
 src/main/webapp/dist/*
 src/main/webapp/src/aot/*
