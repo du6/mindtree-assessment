@@ -1,0 +1,9 @@
+<div class="add-node-dialog">
+  <md-input placeholder="name" [(ngModel)]="name"></md-input>
+  <md-input placeholder="description" [(ngModel)]="description"></md-input>
+
+  <div class="action-buttons">
+    <button md-raised-button color="primary" type="cancel" (click)="cancel()">Cancel</button>
+    <button md-raised-button color="primary" type="submit" (click)="confirm()" class="add-button">Add</button>
+  </div>
+</div>

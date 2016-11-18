@@ -40,6 +40,12 @@ export class GapiService {
     });
   }
 
+  deleteNode(nodeKey: string) {
+    return this.gapi_.client.mindTreeApi.deleteKnowledgeNode({
+      websafeKnowledgeNodeKey: nodeKey
+    });
+  }
+
   deleteEdge(fromNode: string, toNode: string): Promise<any> {
     return this.gapi_.client.mindTreeApi.deleteEdge({
       parentKey: fromNode,

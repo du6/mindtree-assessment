@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/knowledgegraph/knowledge-graph.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/knowledgegraph/knowledge-graph.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/mind-tree-assessment-1.0/src/app/app.module.ts" afterPath="$PROJECT_DIR$/target/mind-tree-assessment-1.0/src/app/app.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/mind-tree-assessment-1.0/src/app/services/gapi.service.ts" afterPath="$PROJECT_DIR$/target/mind-tree-assessment-1.0/src/app/services/gapi.service.ts" />
     </list>
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
