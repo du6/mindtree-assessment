@@ -80,7 +80,7 @@ export class KnowledgeGraphComponent {
 
       manipulation: {
         addNode: (nodeData, callback) => {
-          this.openAddNodeDialog(callback);
+          this.openAddNodeDialog(nodeData, callback);
         },
 
         deleteNode: (params, callback) => {
@@ -136,16 +136,14 @@ export class KnowledgeGraphComponent {
   private onEdgeClicked_(edgeKey: String) {
   }
 
-  openAddNodeDialog(addNodeCallback: any) {
+  openAddNodeDialog(nodeData: Node, addNodeCallback: any) {
     let dialogRef = this._dialog.open(AddNodeDialog);
     dialogRef.afterClosed().subscribe(node => {
       if (node) {
         this.gapi_.addNode(node.name, node.description).then((data: any) => {
           const knowledgeNode = data.result;
-          const nodeData = {
-            id: knowledgeNode.websafeKey,
-            label: knowledgeNode.name,
-          }
+          nodeData.id = knowledgeNode.websafeKey;
+          nodeData.label = knowledgeNode.name;
           addNodeCallback(nodeData);
         }, (error) => this._snackbar.open('Failed to add a node', 'DISMISS'));
       }
