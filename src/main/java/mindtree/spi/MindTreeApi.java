@@ -449,6 +449,8 @@ public class MindTreeApi {
 //      }
       deleteKnowledgeNodeFromParents(knowledgeNode);
       ofy().delete().key(knowledgeNodeKey).now();
+
+      //TODO(du6) delete from children!!!
     }
   }
 
