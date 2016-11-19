@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" />
-    </list>
+    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="" />
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
