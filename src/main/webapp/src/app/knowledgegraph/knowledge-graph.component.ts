@@ -1,8 +1,9 @@
+import { ToPromiseSignature } from 'rxjs/operator/toPromise';
 import { Component, Optional } from '@angular/core';
 import { GapiService } from '../services/gapi.service';
 import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 
-import { KnowledgeNode } from '../common/knowledge-node';
+import { KnowledgeEdge, KnowledgeNode } from '../common/knowledge-node';
 import { AddNodeDialog } from './add-node-dialog.component';
 
 export class Node {
@@ -28,38 +29,31 @@ export class KnowledgeGraphComponent {
   }
 
   ngAfterViewInit() {
-    this.gapi_.loadAllKnowledgeNodes().then(nodes => {
-      this.knowledgeGraph = this.loadKnowledgeGraphDrawer_(nodes);
+    Promise.all([
+      this.gapi_.loadAllKnowledgeNodes(),
+      this.gapi_.loadAllKnowledgeEdges(),
+    ]).then(results => {
+      this.knowledgeGraph = this.loadKnowledgeGraphDrawer_(results[0]||[], results[1]||[]);
       this.knowledgeGraph.on("click", (params) => this.onGraphClicked_(params));
     });
   }
 
-  private loadKnowledgeGraphDrawer_(knowledgeNodes: KnowledgeNode[]) {
-    const knowledgeNodeMap = new Map();
-    knowledgeNodes.forEach(knowledgeNode => {
-      knowledgeNodeMap.set(knowledgeNode.websafeKey, knowledgeNode);
-    });
-
-    const nodes = knowledgeNodes.map((knowledgeNode => {
+  private loadKnowledgeGraphDrawer_(knowledgeNodes: KnowledgeNode[], knowledgeEdges: KnowledgeEdge[]) {
+    const nodes = knowledgeNodes.map(knowledgeNode => {
       return {
         id: knowledgeNode.websafeKey,
         label: knowledgeNode.name,
       }
-    }));
+    });
     const nodeDataSet = new vis.DataSet(nodes);
 
-    const edges = [];
-    knowledgeNodes.forEach(knowledgeNode => {
-      if (knowledgeNode.children) {
-        knowledgeNode.children.forEach(child => {
-          const fromNodeKey = knowledgeNode.websafeKey;
-          const toNodeKey = knowledgeNodeMap.get(child).websafeKey;  
-          edges.push({
-            id: this.createEdgeId(fromNodeKey, toNodeKey),
-            from: fromNodeKey,
-            to: toNodeKey,
-          });
-        });
+    const edges = knowledgeEdges.map(knowledgeEdge => {
+      const fromNodeKey = knowledgeEdge.parentKey;
+      const toNodeKey = knowledgeEdge.childKey;  
+      return {
+        id: this.createEdgeId(fromNodeKey, toNodeKey),
+        from: fromNodeKey,
+        to: toNodeKey,
       }
     });
     const edgeDataSet = new vis.DataSet(edges);

@@ -7,9 +7,6 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import main.java.mindtree.form.KnowledgeNodeForm;
 
 /**
@@ -43,19 +40,11 @@ public class KnowledgeNode {
   private String createdBy;
 
   /**
-   * The child nodes' web safe keys which the current node depends on.
-   */
-  private Set<String> children = new HashSet<>();
-
-  /**
-   * The parent nodes' web safe keys who depend on the current node.
-   */
-  private Set<String> parents = new HashSet<>();
-
-  /**
-   * //TODO(du6): use builder pattern
    * Constructor.
+   * @param id the id of the node
    * @param name the name of the node
+   * @param description the description of the node
+   * @param createdBy the user id who creates the node
    */
   public KnowledgeNode(
       Long id,
@@ -73,38 +62,6 @@ public class KnowledgeNode {
     this.description = knowledgeNodeForm.getDescription();
   }
 
-  /**
-   * Add a child
-   * @param childKey
-   */
-  public void addChild(String childKey) {
-    this.children.add(childKey);
-  }
-
-  /**
-   * Delete a child
-   * @param childKey
-   */
-  public void deleteChild(String childKey) {
-    this.children.remove(childKey);
-  }
-
-  /**
-   * Add a parent
-   * @param parentKey
-   */
-  public void addParent(String parentKey) {
-    this.parents.add(parentKey);
-  }
-
-  /**
-   * Delete a parent
-   * @param parentKey
-   */
-  public void deleteParent(String parentKey) {
-    this.parents.remove(parentKey);
-  }
-
   // Get a String version of the key
   public String getWebsafeKey() {
     return Key.create(KnowledgeNode.class, this.id).getString();
@@ -120,14 +77,6 @@ public class KnowledgeNode {
 
   public String getCreatedBy() {
     return createdBy;
-  }
-
-  public Set<String> getChildren() {
-    return children;
-  }
-
-  public Set<String> getParents() {
-    return parents;
   }
 
   public Long getId() {

@@ -4,6 +4,7 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.domain.Profile;
 
@@ -15,6 +16,7 @@ public class OfyService {
      * This static block ensure the entity registration.
      */
     static {
+        factory().register(Edge.class);
         factory().register(KnowledgeNode.class);
         factory().register(Profile.class);
     }
