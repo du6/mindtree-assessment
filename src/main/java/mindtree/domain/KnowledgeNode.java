@@ -3,6 +3,7 @@ package main.java.mindtree.domain;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -13,6 +14,7 @@ import main.java.mindtree.form.KnowledgeNodeForm;
  * The knowledge node entity for the knowledge graph.
  */
 @Entity
+@Cache
 public class KnowledgeNode {
   /**
    * Use automatic id assignment.
@@ -42,19 +44,16 @@ public class KnowledgeNode {
   /**
    * Constructor.
    * @param id the id of the node
-   * @param name the name of the node
-   * @param description the description of the node
    * @param createdBy the user id who creates the node
+   * @param nodeForm the client side form
    */
   public KnowledgeNode(
       Long id,
-      String name,
-      String description,
-      String createdBy) {
+      String createdBy,
+      KnowledgeNodeForm nodeForm) {
     this.id = id;
-    this.name = name;
-    this.description = description;
     this.createdBy = createdBy;
+    this.updateWithKnowledgeNodeForm(nodeForm);
   }
 
   public void updateWithKnowledgeNodeForm(KnowledgeNodeForm knowledgeNodeForm) {

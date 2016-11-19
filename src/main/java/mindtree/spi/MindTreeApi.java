@@ -229,9 +229,8 @@ public class MindTreeApi {
         KnowledgeNode knowledgeNode =
             new KnowledgeNode(
                 knowledgeNodeKey.getId(),
-                knowledgeNodeForm.getName(),
-                knowledgeNodeForm.getDescription(),
-                userId);
+                userId,
+                knowledgeNodeForm);
         ofy().save().entity(knowledgeNode).now();
         return knowledgeNode;
       }
@@ -263,9 +262,8 @@ public class MindTreeApi {
         Edge edge =
             new Edge(
                 edgeKey.getId(),
-                edgeForm.getParentKey(),
-                edgeForm.getChildKey(),
-                userId);
+                userId,
+                edgeForm);
         ofy().save().entity(edge).now();
         return edge;
       }

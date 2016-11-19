@@ -3,19 +3,17 @@ package main.java.mindtree.domain;
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import main.java.mindtree.form.EdgeForm;
+import main.java.mindtree.form.QuizTagForm;
 
 /**
- * The edge entity connection parent and child knowledge node.
+ * The quiz tag entity connecting a quiz and a knowledge node.
  */
 @Entity
-@Cache
-public class Edge {
+public class QuizTag {
   /**
    * Use automatic id assignment.
    */
@@ -24,26 +22,26 @@ public class Edge {
   private Long id;
 
   /**
-   * The parent node key.
+   * The quiz key.
    */
   @Index
-  private String parentKey;
+  private String quizKey;
 
   /**
-   * The child node key.
+   * The knowledge node key.
    */
   @Index
-  private String childKey;
+  private String nodeKey;
 
   /**
-   * How strong the parent node depends on the child node.
+   * How strong the quiz testing the knowledge node.
    * Default is 1.0.
    */
   @Index
   private double strength;
 
   /**
-   * The user id who created the edge.
+   * The user id who created the tag.
    */
   @Index
   @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
@@ -52,39 +50,39 @@ public class Edge {
   /**
    * Constructor
    * @param id the id of the edge
-   * @param createdBy the user id who creates the node
-   * @param edgeForm the client side form
+   * @param createdBy the user id who creates the quiz
+   * @param tagForm the client side form
    */
-  public Edge (
+  public QuizTag(
       Long id,
       String createdBy,
-      EdgeForm edgeForm) {
+      QuizTagForm tagForm) {
     this.id = id;
     this.createdBy = createdBy;
     this.strength = 1.0;
-    this.updateWithEdgeForm(edgeForm);
+    this.updateWithQuizTagForm(tagForm);
   }
 
-  public void updateWithEdgeForm(EdgeForm edgeForm) {
-    this.parentKey = edgeForm.getParentKey();
-    this.childKey = edgeForm.getChildKey();
+  public void updateWithQuizTagForm(QuizTagForm tagForm) {
+    this.quizKey = tagForm.getQuizKey();
+    this.nodeKey = tagForm.getNodeKey();
   }
 
   // Get a String version of the key
   public String getWebsafeKey() {
-    return Key.create(Edge.class, this.id).getString();
+    return Key.create(QuizTag.class, this.id).getString();
   }
 
   public Long getId() {
     return id;
   }
 
-  public String getParentKey() {
-    return parentKey;
+  public String getQuizKey() {
+    return quizKey;
   }
 
-  public String getChildKey() {
-    return childKey;
+  public String getNodeKey() {
+    return nodeKey;
   }
 
   public double getStrength() {
@@ -95,5 +93,5 @@ public class Edge {
     return createdBy;
   }
 
-  private Edge() {}
+  private QuizTag() {}
 }
