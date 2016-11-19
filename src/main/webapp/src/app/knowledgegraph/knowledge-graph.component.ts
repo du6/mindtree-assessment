@@ -68,6 +68,10 @@ export class KnowledgeGraphComponent {
     };
 
     const options = {
+      autoResize: true,
+      height: '600px',
+      width: '100%',
+
       edges: {
         arrows: 'to'
       },
