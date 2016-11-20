@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/home/home.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/home/home.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/knowledgegraph/knowledge-graph.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/knowledgegraph/knowledge-graph.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/sidenav/sidenav.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/sidenav/sidenav.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/sidenav/sidenav.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/sidenav/sidenav.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/app.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/app.component.html" />
     </list>
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
