@@ -9,11 +9,13 @@ import { HomeComponent } from './home/home.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { KnowledgeGraphComponent } from './knowledgegraph/knowledge-graph.component';
 import { AddNodeDialog } from './knowledgegraph/add-node-dialog.component';
+import { QuizComponent } from './quiz/quiz.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
 
 const routes: Routes = [
- { path: '', component: HomeComponent },
+ { path: 'quiz', component: QuizComponent },
+ { path: '', component: KnowledgeGraphComponent },
 ];
 
 @NgModule({
@@ -25,7 +27,14 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   providers: [AuthService, GapiService],
-  declarations: [MindTreeAppComponent, HomeComponent, SidenavComponent, KnowledgeGraphComponent, AddNodeDialog],
+  declarations: [
+    MindTreeAppComponent, 
+    HomeComponent, 
+    SidenavComponent, 
+    KnowledgeGraphComponent, 
+    AddNodeDialog,
+    QuizComponent
+  ],
   entryComponents: [AddNodeDialog],
   bootstrap: [MindTreeAppComponent],
 })

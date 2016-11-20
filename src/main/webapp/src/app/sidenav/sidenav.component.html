@@ -1,9 +1,15 @@
 <div class="mind-tree-sidenav">
-  <button class="sidenav-button" md-raised-button md-tooltip="Knowledge Graph" tooltip-position="below">
+  <button class="sidenav-button" md-raised-button md-tooltip="Home" tooltip-position="below">
+    <i class="material-icons">home</i>
+  </button>
+
+  <button class="sidenav-button" md-raised-button (click)="gotoKnowledgeGraph()"
+      md-tooltip="Knowledge Graph" tooltip-position="below">
     <i class="material-icons">device_hub</i>
   </button>
 
-  <button class="sidenav-button" md-raised-button md-tooltip="Quizzes" tooltip-position="below">
+  <button class="sidenav-button" md-raised-button (click)="gotoQuiz()"
+      md-tooltip="Quizzes" tooltip-position="below">
     <i class="material-icons">help_outline</i>
   </button>
 </div>

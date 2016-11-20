@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mind-tree-sidenav',
@@ -6,6 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['sidenav.component.scss'],
 })
 export class SidenavComponent {
-  constructor() {
+  constructor(private _router: Router) {
+  }
+
+  gotoKnowledgeGraph() {
+    this._router.navigate(['/']);
+  }
+
+  gotoQuiz() {
+    this._router.navigate(['/quiz']);
   }
 }
