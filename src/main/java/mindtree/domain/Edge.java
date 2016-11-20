@@ -15,7 +15,7 @@ import main.java.mindtree.form.EdgeForm;
  */
 @Entity
 @Cache
-public class Edge {
+public class Edge extends MindTreeEntity<Edge, EdgeForm> {
   /**
    * Use automatic id assignment.
    */
@@ -62,15 +62,17 @@ public class Edge {
     this.id = id;
     this.createdBy = createdBy;
     this.strength = 1.0;
-    this.updateWithEdgeForm(edgeForm);
+    this.updateWithForm(edgeForm);
   }
 
-  public void updateWithEdgeForm(EdgeForm edgeForm) {
+  @Override
+  public void updateWithForm(EdgeForm edgeForm) {
     this.parentKey = edgeForm.getParentKey();
     this.childKey = edgeForm.getChildKey();
   }
 
   // Get a String version of the key
+  @Override
   public String getWebsafeKey() {
     return Key.create(Edge.class, this.id).getString();
   }

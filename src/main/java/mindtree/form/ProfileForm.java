@@ -3,7 +3,7 @@ package main.java.mindtree.form;
 /**
  * Pojo representing a profile form on the client side.
  */
-public class ProfileForm {
+public class ProfileForm implements MindTreeForm {
     /**
      * Any string user wants us to display him/her on this system.
      */

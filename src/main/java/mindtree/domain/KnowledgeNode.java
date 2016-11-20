@@ -15,7 +15,7 @@ import main.java.mindtree.form.KnowledgeNodeForm;
  */
 @Entity
 @Cache
-public class KnowledgeNode {
+public class KnowledgeNode extends MindTreeEntity<KnowledgeNode, KnowledgeNodeForm> {
   /**
    * Use automatic id assignment.
    */
@@ -53,15 +53,17 @@ public class KnowledgeNode {
       KnowledgeNodeForm nodeForm) {
     this.id = id;
     this.createdBy = createdBy;
-    this.updateWithKnowledgeNodeForm(nodeForm);
+    this.updateWithForm(nodeForm);
   }
 
-  public void updateWithKnowledgeNodeForm(KnowledgeNodeForm knowledgeNodeForm) {
+  @Override
+  public void updateWithForm(KnowledgeNodeForm knowledgeNodeForm) {
     this.name = knowledgeNodeForm.getName();
     this.description = knowledgeNodeForm.getDescription();
   }
 
   // Get a String version of the key
+  @Override
   public String getWebsafeKey() {
     return Key.create(KnowledgeNode.class, this.id).getString();
   }

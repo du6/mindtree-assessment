@@ -13,8 +13,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Query;
 
 import java.util.HashSet;
@@ -29,11 +27,9 @@ import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
-import main.java.mindtree.domain.AppEngineUser;
 import main.java.mindtree.domain.Profile;
 import main.java.mindtree.form.ProfileForm;
 
-import static main.java.mindtree.service.OfyService.factory;
 import static main.java.mindtree.service.OfyService.ofy;
 
 /**
@@ -66,99 +62,9 @@ public class MindTreeApi {
     return profile;
   }
 
-  /**
-   * This is an ugly workaround for null userId for Android clients.
-   *
-   * @param user A User object injected by the cloud endpoints.
-   * @return the App Engine userId for the user.
-   */
-  private static String getUserId(User user) {
-    String userId = user.getUserId();
-    if (userId == null) {
-      LOG.info("userId is null, so trying to obtain it from the datastore.");
-      AppEngineUser appEngineUser = new AppEngineUser(user);
-      ofy().save().entity(appEngineUser).now();
-      // Begin new session for not using session cache.
-      Objectify objectify = ofy().factory().begin();
-      AppEngineUser savedUser = objectify.load().key(appEngineUser.getKey()).now();
-      userId = savedUser.getUser().getUserId();
-      LOG.info("Obtained the userId: " + userId);
-    }
-    return userId;
-  }
 
-  /**
-   * Just a wrapper for Boolean.
-   */
-  public static class WrappedBoolean {
+  /** API For Profile */
 
-    private final Boolean result;
-
-    public WrappedBoolean(Boolean result) {
-      this.result = result;
-    }
-
-    public Boolean getResult() {
-      return result;
-    }
-  }
-
-  /**
-   * A wrapper class that can embrace a generic result or some kind of exception.
-   *
-   * Use this wrapper class for the return type of objectify transaction.
-   * <pre>
-   * {@code
-   * // The transaction that returns KnowledgeNode object.
-   * TxResult<KnowledgeNode> result = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
-   *     public TxResult<KnowledgeNode> run() {
-   *         // Code here.
-   *         // To throw 404
-   *         return new TxResult<>(new NotFoundException("No such knowledge node"));
-   *         // To return a knowledge node.
-   *         KnowledgeNode knowledgeNode = somehow.getKnowledgeNode();
-   *         return new TxResult<>(knowledgeNode);
-   *     }
-   * }
-   * // Actually the NotFoundException will be thrown here.
-   * return result.getResult();
-   * </pre>
-   *
-   * @param <ResultType> The type of the actual return object.
-   */
-  private static class TxResult<ResultType> {
-
-    private ResultType result;
-
-    private Throwable exception;
-
-    private TxResult(ResultType result) {
-      this.result = result;
-    }
-
-    private TxResult(Throwable exception) {
-      if (exception instanceof NotFoundException ||
-          exception instanceof ForbiddenException ||
-          exception instanceof ConflictException) {
-        this.exception = exception;
-      } else {
-        throw new IllegalArgumentException("Exception not supported.");
-      }
-    }
-
-    private ResultType getResult() throws NotFoundException, ForbiddenException, ConflictException {
-      if (exception instanceof NotFoundException) {
-        throw (NotFoundException) exception;
-      }
-      if (exception instanceof ForbiddenException) {
-        throw (ForbiddenException) exception;
-      }
-      if (exception instanceof ConflictException) {
-        throw (ConflictException) exception;
-      }
-      return result;
-    }
-  }
 
   /**
    * Returns a Profile object associated with the given user object. The cloud endpoints system
@@ -171,7 +77,7 @@ public class MindTreeApi {
   @ApiMethod(name = "getProfile", path = "profile", httpMethod = HttpMethod.GET)
   public Profile getProfile(final User user) throws UnauthorizedException {
     checkSignedIn(user);
-    return ofy().load().key(Key.create(Profile.class, getUserId(user))).now();
+    return ofy().load().key(Key.create(Profile.class, ApiUtils.getUserId(user))).now();
   }
 
   /**
@@ -188,19 +94,22 @@ public class MindTreeApi {
     checkSignedIn(user);
     String displayName = profileForm.getDisplayName();
 
-    Profile profile = ofy().load().key(Key.create(Profile.class, getUserId(user))).now();
+    Profile profile = ofy().load().key(Key.create(Profile.class, ApiUtils.getUserId(user))).now();
     if (profile == null) {
-      // Populate displayName and teeShirtSize with the default values if null.
       if (displayName == null) {
         displayName = extractDefaultDisplayNameFromEmail(user.getEmail());
       }
-      profile = new Profile(getUserId(user), displayName, user.getEmail());
+      profile = new Profile(ApiUtils.getUserId(user), displayName, user.getEmail());
     } else {
       profile.update(displayName);
     }
     ofy().save().entity(profile).now();
     return profile;
   }
+
+
+  /** API For Knowledge Graph */
+
 
   /**
    * Creates a new KnowledgeNode object and stores it to the datastore.
@@ -216,26 +125,10 @@ public class MindTreeApi {
       httpMethod = HttpMethod.POST)
   public KnowledgeNode createKnowledgeNode(
       final User user,
-      final KnowledgeNodeForm knowledgeNodeForm) throws UnauthorizedException {
+      final KnowledgeNodeForm knowledgeNodeForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
     checkSignedIn(user);
-    final String userId = getUserId(user);
-
-    // Start a transaction.
-    KnowledgeNode knowledgeNode = ofy().transact(new Work<KnowledgeNode>() {
-      @Override
-      public KnowledgeNode run() {
-        // Fetch user's Profile.
-        Key<KnowledgeNode> knowledgeNodeKey = factory().allocateId(KnowledgeNode.class);
-        KnowledgeNode knowledgeNode =
-            new KnowledgeNode(
-                knowledgeNodeKey.getId(),
-                userId,
-                knowledgeNodeForm);
-        ofy().save().entity(knowledgeNode).now();
-        return knowledgeNode;
-      }
-    });
-    return knowledgeNode;
+    return (KnowledgeNode) ApiUtils.createEntity(user, knowledgeNodeForm, KnowledgeNode.class);
   }
 
   /**
@@ -249,26 +142,10 @@ public class MindTreeApi {
       name = "createEdge",
       path = "createEdge",
       httpMethod = HttpMethod.POST)
-  public Edge createEdge(final User user, final EdgeForm edgeForm) throws UnauthorizedException {
+  public Edge createEdge(final User user, final EdgeForm edgeForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
     checkSignedIn(user);
-    final String userId = getUserId(user);
-
-    // Start a transaction.
-    Edge edge = ofy().transact(new Work<Edge>() {
-      @Override
-      public Edge run() {
-        // Fetch user's Profile.
-        Key<Edge> edgeKey = factory().allocateId(Edge.class);
-        Edge edge =
-            new Edge(
-                edgeKey.getId(),
-                userId,
-                edgeForm);
-        ofy().save().entity(edge).now();
-        return edge;
-      }
-    });
-    return edge;
+    return (Edge) ApiUtils.createEntity(user, edgeForm, Edge.class);
   }
 
   /**
@@ -294,26 +171,8 @@ public class MindTreeApi {
       final String websafeKnowledgeNodeKey)
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
     checkSignedIn(user);
-    final String userId = getUserId(user);
-    // Update the knowledgeNode with the knowledgeNodeForm sent from the client.
-    TxResult<KnowledgeNode> result = ofy().transact(new Work<TxResult<KnowledgeNode>>() {
-      @Override
-      public TxResult<KnowledgeNode> run() {
-        // If there is no knowledge node with the id, throw a 404 error.
-        Key<KnowledgeNode> knowledgeNodeKey = Key.create(websafeKnowledgeNodeKey);
-        KnowledgeNode knowledgeNode = ofy().load().key(knowledgeNodeKey).now();
-        if (knowledgeNode == null) {
-          return new TxResult<>(
-              new NotFoundException("No knowledge node found with the key: "
-                  + websafeKnowledgeNodeKey));
-        }
-        knowledgeNode.updateWithKnowledgeNodeForm(knowledgeNodeForm);
-        ofy().save().entity(knowledgeNode).now();
-        return new TxResult<>(knowledgeNode);
-      }
-    });
-    // NotFoundException or ForbiddenException is actually thrown here.
-    return result.getResult();
+    return (KnowledgeNode) ApiUtils.updateEntity(
+        user, knowledgeNodeForm, websafeKnowledgeNodeKey, KnowledgeNode.class);
   }
 
   /**
@@ -426,7 +285,7 @@ public class MindTreeApi {
       @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit)
       throws UnauthorizedException {
     checkSignedIn(user);
-    String userId = getUserId(user);
+    String userId = ApiUtils.getUserId(user);
     return queryByOwner(userId).limit(limit).list();
   }
   
@@ -479,4 +338,9 @@ public class MindTreeApi {
       throw new UnauthorizedException("Authorization required");
     }
   }
+
+
+  /** API For Quiz */
+
+
 }

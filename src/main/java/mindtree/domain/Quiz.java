@@ -2,6 +2,7 @@ package main.java.mindtree.domain;
 
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
+import com.google.appengine.api.datastore.Query;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
@@ -18,11 +19,11 @@ import main.java.mindtree.form.QuizForm;
  */
 @Entity
 @Cache
-public class Quiz {
-  public static enum Status {
+public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
+  private static enum Status {
     ACTIVE,
     DRAFT,
-    EXPIRED, //delete a quiz make a quiz expired
+    EXPIRED,
   }
 
   /**
@@ -42,6 +43,7 @@ public class Quiz {
    * The status of the quiz.
    */
   @Index
+  @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
   private Status status;
 
   /**
@@ -71,22 +73,38 @@ public class Quiz {
   public Quiz(
       Long id,
       String createdBy,
-      QuizForm quizForm) throws MalformedURLException {
+      QuizForm quizForm) {
     this.id = id;
     this.createdBy = createdBy;
     this.status = Status.ACTIVE;
-    this.updateWithQuizForm(quizForm);
+    this.updateWithForm(quizForm);
   }
 
-  public void updateWithQuizForm(QuizForm quizForm) throws MalformedURLException {
-    this.name = quizForm.getName();
-    this.description = quizForm.getDescription();
-    this.url = new URL(quizForm.getUrl());
+  @Override
+  public void updateWithForm(QuizForm quizForm) {
+    try {
+      this.name = quizForm.getName();
+      this.description = quizForm.getDescription();
+      this.url = new URL(quizForm.getUrl());
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   // Get a String version of the key
+  @Override
   public String getWebsafeKey() {
     return Key.create(Quiz.class, this.id).getString();
+  }
+
+  // Only get active quiz
+  public Query.Filter activeQuizFilter() {
+    return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE);
+  }
+
+  // Delete a quiz by setting the status expired
+  public void delete() {
+    this.status = Status.EXPIRED;
   }
 
   public Long getId() {

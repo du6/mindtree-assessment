@@ -13,7 +13,7 @@ import main.java.mindtree.form.QuizTagForm;
  * The quiz tag entity connecting a quiz and a knowledge node.
  */
 @Entity
-public class QuizTag {
+public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
   /**
    * Use automatic id assignment.
    */
@@ -60,15 +60,17 @@ public class QuizTag {
     this.id = id;
     this.createdBy = createdBy;
     this.strength = 1.0;
-    this.updateWithQuizTagForm(tagForm);
+    this.updateWithForm(tagForm);
   }
 
-  public void updateWithQuizTagForm(QuizTagForm tagForm) {
+  @Override
+  public void updateWithForm(QuizTagForm tagForm) {
     this.quizKey = tagForm.getQuizKey();
     this.nodeKey = tagForm.getNodeKey();
   }
 
   // Get a String version of the key
+  @Override
   public String getWebsafeKey() {
     return Key.create(QuizTag.class, this.id).getString();
   }

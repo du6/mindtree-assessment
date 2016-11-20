@@ -4,7 +4,7 @@ package main.java.mindtree.form;
  * Pojo representing a KnowledgeNode form on the client side.
  */
 
-public class KnowledgeNodeForm {
+public class KnowledgeNodeForm implements MindTreeForm {
   /**
    * The name of the node.
    */

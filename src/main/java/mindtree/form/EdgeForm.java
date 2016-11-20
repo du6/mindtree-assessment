@@ -4,7 +4,7 @@ package main.java.mindtree.form;
  * Pojo representing a Edge form on the client side.
  */
 
-public class EdgeForm {
+public class EdgeForm implements MindTreeForm {
   /**
    * The parent key
    */

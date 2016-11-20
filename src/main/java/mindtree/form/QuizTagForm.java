@@ -3,7 +3,7 @@ package main.java.mindtree.form;
 /**
  * Pojo representing a Quiz Tag form on the client side.
  */
-public class QuizTagForm {
+public class QuizTagForm implements MindTreeForm {
   /**
    * The web safe key of the quiz.
    */
