@@ -1,11 +1,22 @@
-<div class="mind-tree-app">
+<md-sidenav-layout class="mind-tree-app">
+  <md-sidenav #sidenav mode="side" class="app-sidenav">
+    <mind-tree-sidenav></mind-tree-sidenav>
+  </md-sidenav>
   <md-toolbar color="primary">
+    <button md-button (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button>
     <span>Mind Tree</span>
     <span class="fill-in-space"></span>
     <button md-button *ngIf="!isSignedIn()" (click)="signIn()">Sign In with Google</button>
     <button md-button *ngIf="isSignedIn()" (click)="signOut()">Sign Out</button>
   </md-toolbar>
-  <router-outlet></router-outlet>
-</div>
+  <md-card *ngIf="!isSignedIn()">
+    <md-card-content>
+      <h3>Please sign in</h3>
+    </md-card-content>
+  </md-card>
+  <div [hidden]="!isSignedIn()"><router-outlet></router-outlet></div>
+</md-sidenav-layout>
 
 <div id="snackbar"></div>
