@@ -17,7 +17,7 @@ export class GapiService {
 
   loadAllKnowledgeNodes(limit: number = GapiService.QUERY_LIMIT): Promise<KnowledgeNode[]> {
     return new Promise((resolve,reject) => 
-        this.gapi_.client.mindTreeApi.getAllKnowledgeNodes(limit)
+        this.gapi_.client.mindTreeApi.getAllKnowledgeNodes({ limit: limit })
             .execute((resp) => {
               if (resp.error) {
                 reject(resp.error);
@@ -29,7 +29,7 @@ export class GapiService {
 
   loadAllKnowledgeEdges(limit: number = GapiService.QUERY_LIMIT): Promise<KnowledgeEdge[]> {
     return new Promise((resolve,reject) => 
-        this.gapi_.client.mindTreeApi.getAllEdges(limit)
+        this.gapi_.client.mindTreeApi.getAllEdges({ limit: limit })
             .execute((resp) => {
               if (resp.error) {
                 reject(resp.error);

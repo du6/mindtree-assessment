@@ -25,10 +25,14 @@ import javax.inject.Named;
 import main.java.mindtree.Constants;
 import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
+import main.java.mindtree.domain.Quiz;
+import main.java.mindtree.domain.QuizTag;
 import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
 import main.java.mindtree.domain.Profile;
 import main.java.mindtree.form.ProfileForm;
+import main.java.mindtree.form.QuizForm;
+import main.java.mindtree.form.QuizTagForm;
 
 import static main.java.mindtree.service.OfyService.ofy;
 
@@ -76,7 +80,7 @@ public class MindTreeApi {
    */
   @ApiMethod(name = "getProfile", path = "profile", httpMethod = HttpMethod.GET)
   public Profile getProfile(final User user) throws UnauthorizedException {
-    checkSignedIn(user);
+    ApiUtils.checkSignedIn(user);
     return ofy().load().key(Key.create(Profile.class, ApiUtils.getUserId(user))).now();
   }
 
@@ -91,7 +95,7 @@ public class MindTreeApi {
   @ApiMethod(name = "saveProfile", path = "profile", httpMethod = HttpMethod.POST)
   public Profile saveProfile(final User user, final ProfileForm profileForm)
       throws UnauthorizedException {
-    checkSignedIn(user);
+    ApiUtils.checkSignedIn(user);
     String displayName = profileForm.getDisplayName();
 
     Profile profile = ofy().load().key(Key.create(Profile.class, ApiUtils.getUserId(user))).now();
@@ -127,7 +131,6 @@ public class MindTreeApi {
       final User user,
       final KnowledgeNodeForm knowledgeNodeForm)
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
-    checkSignedIn(user);
     return (KnowledgeNode) ApiUtils.createEntity(user, knowledgeNodeForm, KnowledgeNode.class);
   }
 
@@ -144,7 +147,6 @@ public class MindTreeApi {
       httpMethod = HttpMethod.POST)
   public Edge createEdge(final User user, final EdgeForm edgeForm)
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
-    checkSignedIn(user);
     return (Edge) ApiUtils.createEntity(user, edgeForm, Edge.class);
   }
 
@@ -157,7 +159,6 @@ public class MindTreeApi {
    * @return Updated KnowledgeNode object.
    * @throws UnauthorizedException when the user is not signed in.
    * @throws NotFoundException when there is no knowledge with the given key.
-   * @throws ForbiddenException when the user is not the owner of the knowledge node.
    */
   @ApiMethod(
       name = "updateKnowledgeNode",
@@ -170,7 +171,6 @@ public class MindTreeApi {
       @Named("websafeKnowledgeNodeKey")
       final String websafeKnowledgeNodeKey)
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
-    checkSignedIn(user);
     return (KnowledgeNode) ApiUtils.updateEntity(
         user, knowledgeNodeForm, websafeKnowledgeNodeKey, KnowledgeNode.class);
   }
@@ -214,7 +214,7 @@ public class MindTreeApi {
       final User user,
       @Named("websafeKnowledgeNodeKey") final String websafeKnowledgeNodeKey)
       throws NotFoundException, UnauthorizedException {
-    checkSignedIn(user);
+    ApiUtils.checkSignedIn(user);
     Key<KnowledgeNode> knowledgeNodeKey = Key.create(websafeKnowledgeNodeKey);
     KnowledgeNode knowledgeNode = ofy().load().key(knowledgeNodeKey).now();
     if (knowledgeNode == null) {
@@ -237,10 +237,10 @@ public class MindTreeApi {
   @ApiMethod(
       name = "deleteEdges",
       path = "deleteEdges",
-      httpMethod = HttpMethod.POST)
+      httpMethod = HttpMethod.DELETE)
   public void deleteEdges(final User user, final EdgeForm edgeForm)
       throws NotFoundException, UnauthorizedException {
-    checkSignedIn(user);
+    ApiUtils.checkSignedIn(user);
     final Filter parentKeyFilter =
         new FilterPredicate("parentKey", FilterOperator.EQUAL, edgeForm.getParentKey());
     final Filter childKeyFilter =
@@ -269,9 +269,10 @@ public class MindTreeApi {
 
   /**
    * Returns a list of knowledge nodes that the user created.
-   * In order to receive the websafeKnowledgeNodeKey via the JSON params, uses a POST method.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
    *
    * @param user An user who invokes this method, null when the user is not signed in.
+   * @param limit The number of entities to return
    * @return a list of knowledge nodes that the user created.
    * @throws UnauthorizedException when the user is not signed in.
    */
@@ -284,7 +285,7 @@ public class MindTreeApi {
       final User user,
       @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit)
       throws UnauthorizedException {
-    checkSignedIn(user);
+    ApiUtils.checkSignedIn(user);
     String userId = ApiUtils.getUserId(user);
     return queryByOwner(userId).limit(limit).list();
   }
@@ -296,9 +297,10 @@ public class MindTreeApi {
 
   /**
    * Returns all knowledge nodes.
-   * In order to receive the websafeKnowledgeNodeKey via the JSON params, uses a POST method.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
    *
    * @param user An user who invokes this method, null when the user is not signed in.
+   * @param limit The number of entities to return
    * @return all knowledge nodes.
    */
   @ApiMethod(
@@ -308,16 +310,16 @@ public class MindTreeApi {
   )
   public List<KnowledgeNode> getAllKnowledgeNodes(
       final User user,
-      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit)
-      throws UnauthorizedException {
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
     return ofy().load().type(KnowledgeNode.class).limit(limit).list();
   }
 
   /**
    * Returns all edges.
-   * In order to receive the websafeKnowledgeNodeKey via the JSON params, uses a POST method.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
    *
    * @param user An user who invokes this method, null when the user is not signed in.
+   * @param limit The number of entities to return
    * @return all edges.
    */
   @ApiMethod(
@@ -327,20 +329,162 @@ public class MindTreeApi {
   )
   public List<Edge> getAllEdges(
       final User user,
-      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit)
-      throws UnauthorizedException {
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
     return ofy().load().type(Edge.class).limit(limit).list();
-  }
-
-  private void checkSignedIn(User user) throws UnauthorizedException {
-    // If not signed in, throw a 401 error.
-    if (user == null) {
-      throw new UnauthorizedException("Authorization required");
-    }
   }
 
 
   /** API For Quiz */
 
 
+  /**
+   * Creates a quiz
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param quizForm An QuizForm object representing user's inputs.
+   * @throws UnauthorizedException when the user is not signed in.
+   */
+  @ApiMethod(
+      name = "createQuiz",
+      path = "createQuiz",
+      httpMethod = HttpMethod.POST)
+  public Quiz createQuiz(final User user, final QuizForm quizForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (Quiz) ApiUtils.createEntity(user, quizForm, Quiz.class);
+  }
+
+  /**
+   * Creates a quiz tag
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param tagForm An QuizTagForm object representing user's inputs.
+   * @throws UnauthorizedException when the user is not signed in.
+   */
+  @ApiMethod(
+      name = "createQuizTag",
+      path = "createQuizTag",
+      httpMethod = HttpMethod.POST)
+  public QuizTag createQuizTag(final User user, final QuizTagForm tagForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (QuizTag) ApiUtils.createEntity(user, tagForm, QuizTag.class);
+  }
+
+  /**
+   * Updates the existing quiz with the given web safe key.
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param quizForm A QuizForm object representing user's inputs.
+   * @param websafeQuizKey The String representation of the Quiz key.
+   * @return Updated Quiz object.
+   * @throws UnauthorizedException when the user is not signed in.
+   * @throws NotFoundException when there is no quiz with the given key.
+   */
+  @ApiMethod(
+      name = "updateQuiz",
+      path = "updateQuiz/{websafeQuizKey}",
+      httpMethod = HttpMethod.PUT
+  )
+  public Quiz updateQuiz(
+      final User user,
+      final QuizForm quizForm,
+      @Named("websafeQuizKey")
+      final String websafeQuizKey)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (Quiz) ApiUtils.updateEntity(user, quizForm, websafeQuizKey, Quiz.class);
+  }
+
+  /**
+   * Deletes an quiz tag
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param websafeQuizTagKey An EdgeForm object representing user's inputs.
+   * @throws NotFoundException when there is no quiz tag with the given web safe key.
+   * @throws UnauthorizedException when user is not logged in.
+   */
+  @ApiMethod(
+      name = "deleteQuizTag",
+      path = "deleteQuizTag/{websafeQuizTagKey}",
+      httpMethod = HttpMethod.DELETE)
+  public void deleteQuizTag(
+      final User user,
+      @Named("websafeQuizTagKey") final String websafeQuizTagKey)
+      throws NotFoundException, UnauthorizedException {
+    ApiUtils.checkSignedIn(user);
+    Key<QuizTag> quizTagKey = Key.create(websafeQuizTagKey);
+    QuizTag quizTag = ofy().load().key(quizTagKey).now();
+    if (quizTag == null) {
+      throw new NotFoundException("No tag found with key: " + websafeQuizTagKey);
+    } else {
+      ofy().delete().keys(quizTagKey).now();
+    }
+  }
+
+  /**
+   * Deletes a quiz by marking it expired.
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param websafeQuizKey The String representation of the key.
+   * @throws NotFoundException when there is no quiz with the given key.
+   * @throws UnauthorizedException when user is not logged in.
+   */
+  @ApiMethod(
+      name = "deleteQuiz",
+      path = "deleteQuiz/{websafeQuizKey}",
+      httpMethod = HttpMethod.DELETE
+  )
+  public void deleteQuiz(
+      final User user,
+      @Named("websafeQuizKey") final String websafeQuizKey)
+      throws NotFoundException, UnauthorizedException {
+    ApiUtils.checkSignedIn(user);
+    Key<Quiz> quizKey = Key.create(websafeQuizKey);
+    Quiz quiz = ofy().load().key(quizKey).now();
+    if (quiz == null) {
+      throw new NotFoundException("No quiz found with key: " + websafeQuizKey);
+    } else {
+      quiz.delete();
+      ofy().save().entity(quiz).now();
+    }
+  }
+
+  /**
+   * Returns all active quizzes.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
+   *
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @param limit The number of entities to return
+   * @return all active quizzes.
+   */
+  @ApiMethod(
+      name = "getAllActiveQuizzes",
+      path = "getAllActiveQuizzes",
+      httpMethod = HttpMethod.POST
+  )
+  public List<Quiz> getAllActiveQuizzes(
+      final User user,
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
+    return ofy().load().type(Quiz.class).filter(Quiz.activeQuizFilter()).limit(limit).list();
+  }
+
+  /**
+   * Returns all tags for a give quiz key.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
+   *
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @param websafeQuizKey The quiz key.
+   * @param limit The number of entities to return
+   * @return all quiz tags for a give quiz key.
+   */
+  @ApiMethod(
+      name = "getQuizTags",
+      path = "getQuizTags",
+      httpMethod = HttpMethod.POST
+  )
+  public List<QuizTag> getQuizTags(
+      final User user,
+      @Named("websafeQuizKey") final String websafeQuizKey,
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
+    final Filter quizFilter =
+        new FilterPredicate("quizKey", FilterOperator.EQUAL, websafeQuizKey);
+    return ofy().load().type(QuizTag.class).filter(quizFilter).limit(limit).list();
+  }
 }

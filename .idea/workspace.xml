@@ -2,18 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/MindTreeEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/form/EdgeForm.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/form/EdgeForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/form/KnowledgeNodeForm.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/form/KnowledgeNodeForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/form/ProfileForm.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/form/ProfileForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/form/QuizForm.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/form/QuizForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/form/QuizTagForm.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/form/QuizTagForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/spi/ApiUtils.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/spi/ApiUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" />
     </list>
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,18 +26,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="KnowledgeNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MindTreeEntity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/MindTreeEntity.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -56,11 +36,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MindTreeApi.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MindTreeForm.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/MindTreeForm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MindTreeApi.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3898">
-              <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+            <state relative-caret-position="7305">
+              <caret line="487" column="61" selection-start-line="487" selection-start-column="61" selection-end-line="487" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -68,17 +58,27 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="gapi.service.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ApiUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/ApiUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+            <state relative-caret-position="2160">
+              <caret line="150" column="36" selection-start-line="150" selection-start-column="36" selection-end-line="150" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3938#4610#0" expanded="true" />
-                <element signature="e#4609#4610#0" expanded="true" />
-                <element signature="e#5098#5719#0" expanded="true" />
-                <element signature="e#5718#5719#0" expanded="true" />
+                <element signature="e#3986#4658#0" expanded="true" />
+                <element signature="e#4657#4658#0" expanded="true" />
+                <element signature="e#5194#5815#0" expanded="true" />
+                <element signature="e#5814#5815#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,8 +99,8 @@
       <file leaf-file-name="Quiz.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
+            <state relative-caret-position="89">
+              <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -121,7 +121,7 @@
       <file leaf-file-name="QuizTag.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="990">
               <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -136,18 +136,6 @@
             <state relative-caret-position="75">
               <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Edge.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -194,11 +182,12 @@
         <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/MindTreeEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/KnowledgeNode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/Profile.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/spi/ApiUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java" />
         <option value="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" />
       </list>
     </option>
   </component>
@@ -710,7 +699,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -718,7 +707,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22321428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22321428" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -756,17 +745,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/EdgeForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-          <folding>
-            <element signature="e#295#296#0" expanded="true" />
-            <element signature="e#321#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/KnowledgeNodeForm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -994,14 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/MindTreeForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/EdgeForm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1057,14 +1027,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/MindTreeEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="46" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="89">
@@ -1093,26 +1055,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1133,25 +1075,69 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/ApiUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+        <state relative-caret-position="2160">
+          <caret line="150" column="36" selection-start-line="150" selection-start-column="36" selection-end-line="150" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3938#4610#0" expanded="true" />
-            <element signature="e#4609#4610#0" expanded="true" />
-            <element signature="e#5098#5719#0" expanded="true" />
-            <element signature="e#5718#5719#0" expanded="true" />
+            <element signature="e#3986#4658#0" expanded="true" />
+            <element signature="e#4657#4658#0" expanded="true" />
+            <element signature="e#5194#5815#0" expanded="true" />
+            <element signature="e#5814#5815#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/form/MindTreeForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/MindTreeEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="46" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/QuizTag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/domain/Quiz.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3898">
-          <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+        <state relative-caret-position="7305">
+          <caret line="487" column="61" selection-start-line="487" selection-start-column="61" selection-end-line="487" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>

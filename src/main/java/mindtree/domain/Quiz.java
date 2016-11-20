@@ -26,6 +26,11 @@ public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
     EXPIRED,
   }
 
+  // Only get active quiz
+  public static Query.Filter activeQuizFilter() {
+    return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE);
+  }
+
   /**
    * Use automatic id assignment.
    */
@@ -95,11 +100,6 @@ public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
   @Override
   public String getWebsafeKey() {
     return Key.create(Quiz.class, this.id).getString();
-  }
-
-  // Only get active quiz
-  public Query.Filter activeQuizFilter() {
-    return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE);
   }
 
   // Delete a quiz by setting the status expired

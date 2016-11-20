@@ -116,7 +116,8 @@ class ApiUtils {
       User user,
       final MindTreeForm form,
       final Class<? extends MindTreeEntity> entityClass)
-      throws NotFoundException, ForbiddenException, ConflictException {
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    checkSignedIn(user);
     final String userId = getUserId(user);
     // Start a transaction.
     TxResult<MindTreeEntity> entity = ofy().transact(new Work<TxResult<MindTreeEntity>>() {
@@ -147,7 +148,8 @@ class ApiUtils {
       final MindTreeForm form,
       final String websafeKey,
       final Class<? extends MindTreeEntity> entityClass)
-      throws NotFoundException, ForbiddenException, ConflictException {
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    checkSignedIn(user);
     final String userId = getUserId(user);
     // Update the knowledgeNode with the knowledgeNodeForm sent from the client.
     TxResult<MindTreeEntity> result = ofy().transact(new Work<TxResult<MindTreeEntity>>() {
@@ -168,5 +170,12 @@ class ApiUtils {
     });
     // NotFoundException or ForbiddenException is actually thrown here.
     return entityClass.cast(result.getResult());
+  }
+
+  public static void checkSignedIn(User user) throws UnauthorizedException {
+    // If not signed in, throw a 401 error.
+    if (user == null) {
+      throw new UnauthorizedException("Authorization required");
+    }
   }
 }
