@@ -20,7 +20,7 @@ import main.java.mindtree.form.QuizForm;
 @Entity
 @Cache
 public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
-  private static enum Status {
+  private enum Status {
     ACTIVE,
     DRAFT,
     EXPIRED,
@@ -28,7 +28,7 @@ public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
 
   // Only get active quiz
   public static Query.Filter activeQuizFilter() {
-    return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE);
+    return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE.toString());
   }
 
   /**
@@ -48,7 +48,6 @@ public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
    * The status of the quiz.
    */
   @Index
-  @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
   private Status status;
 
   /**
@@ -90,7 +89,9 @@ public class Quiz extends MindTreeEntity<Quiz, QuizForm> {
     try {
       this.name = quizForm.getName();
       this.description = quizForm.getDescription();
-      this.url = new URL(quizForm.getUrl());
+      if (quizForm.getUrl() != null) {
+        this.url = new URL(quizForm.getUrl());
+      }
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
