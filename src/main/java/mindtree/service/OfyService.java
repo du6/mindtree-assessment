@@ -8,7 +8,7 @@ import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.domain.Profile;
 import main.java.mindtree.domain.Quiz;
-import main.java.mindtree.domain.QuizTag;
+import main.java.mindtree.domain.QuestionTag;
 
 /**
  * Custom Objectify Service that this application should use.
@@ -22,7 +22,7 @@ public class OfyService {
         factory().register(KnowledgeNode.class);
         factory().register(Profile.class);
         factory().register(Quiz.class);
-        factory().register(QuizTag.class);
+        factory().register(QuestionTag.class);
     }
 
     /**

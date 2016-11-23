@@ -7,13 +7,13 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import main.java.mindtree.form.QuizTagForm;
+import main.java.mindtree.form.QuestionTagForm;
 
 /**
- * The quiz tag entity connecting a quiz and a knowledge node.
+ * The question tag entity connecting a quiz and a knowledge node.
  */
 @Entity
-public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
+public class QuestionTag extends MindTreeEntity<QuestionTag, QuestionTagForm> {
   /**
    * Use automatic id assignment.
    */
@@ -22,10 +22,10 @@ public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
   private Long id;
 
   /**
-   * The quiz key.
+   * The question key.
    */
   @Index
-  private String quizKey;
+  private String questionKey;
 
   /**
    * The knowledge node key.
@@ -53,10 +53,10 @@ public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
    * @param createdBy the user id who creates the quiz
    * @param tagForm the client side form
    */
-  public QuizTag(
+  public QuestionTag(
       Long id,
       String createdBy,
-      QuizTagForm tagForm) {
+      QuestionTagForm tagForm) {
     this.id = id;
     this.createdBy = createdBy;
     this.strength = 1.0;
@@ -64,23 +64,23 @@ public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
   }
 
   @Override
-  public void updateWithForm(QuizTagForm tagForm) {
-    this.quizKey = tagForm.getQuizKey();
+  public void updateWithForm(QuestionTagForm tagForm) {
+    this.questionKey = tagForm.getQuestionKey();
     this.nodeKey = tagForm.getNodeKey();
   }
 
   // Get a String version of the key
   @Override
   public String getWebsafeKey() {
-    return Key.create(QuizTag.class, this.id).getString();
+    return Key.create(QuestionTag.class, this.id).getString();
   }
 
   public Long getId() {
     return id;
   }
 
-  public String getQuizKey() {
-    return quizKey;
+  public String getQuestionKey() {
+    return questionKey;
   }
 
   public String getNodeKey() {
@@ -95,5 +95,5 @@ public class QuizTag extends MindTreeEntity<QuizTag, QuizTagForm> {
     return createdBy;
   }
 
-  private QuizTag() {}
+  private QuestionTag() {}
 }

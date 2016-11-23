@@ -26,13 +26,13 @@ import main.java.mindtree.Constants;
 import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.domain.Quiz;
-import main.java.mindtree.domain.QuizTag;
+import main.java.mindtree.domain.QuestionTag;
 import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
 import main.java.mindtree.domain.Profile;
 import main.java.mindtree.form.ProfileForm;
+import main.java.mindtree.form.QuestionTagForm;
 import main.java.mindtree.form.QuizForm;
-import main.java.mindtree.form.QuizTagForm;
 
 import static main.java.mindtree.service.OfyService.ofy;
 
@@ -354,19 +354,19 @@ public class MindTreeApi {
   }
 
   /**
-   * Creates a quiz tag
+   * Creates a question tag
    *
    * @param user A user who invokes this method, null when the user is not signed in.
-   * @param tagForm An QuizTagForm object representing user's inputs.
+   * @param tagForm An QuestionTagForm object representing user's inputs.
    * @throws UnauthorizedException when the user is not signed in.
    */
   @ApiMethod(
-      name = "createQuizTag",
-      path = "createQuizTag",
+      name = "createQuestionTag",
+      path = "createQuestionTag",
       httpMethod = HttpMethod.POST)
-  public QuizTag createQuizTag(final User user, final QuizTagForm tagForm)
+  public QuestionTag createQuestionTag(final User user, final QuestionTagForm tagForm)
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
-    return (QuizTag) ApiUtils.createEntity(user, tagForm, QuizTag.class);
+    return (QuestionTag) ApiUtils.createEntity(user, tagForm, QuestionTag.class);
   }
 
   /**
@@ -394,28 +394,28 @@ public class MindTreeApi {
   }
 
   /**
-   * Deletes an quiz tag
+   * Deletes an question tag
    *
    * @param user A user who invokes this method, null when the user is not signed in.
-   * @param websafeQuizTagKey An EdgeForm object representing user's inputs.
-   * @throws NotFoundException when there is no quiz tag with the given web safe key.
+   * @param websafeQuestionTagKey An EdgeForm object representing user's inputs.
+   * @throws NotFoundException when there is no question tag with the given web safe key.
    * @throws UnauthorizedException when user is not logged in.
    */
   @ApiMethod(
-      name = "deleteQuizTag",
-      path = "deleteQuizTag/{websafeQuizTagKey}",
+      name = "deleteQuestionTag",
+      path = "deleteQuestionTag/{websafeQuestionTagKey}",
       httpMethod = HttpMethod.DELETE)
-  public void deleteQuizTag(
+  public void deleteQuestionTag(
       final User user,
-      @Named("websafeQuizTagKey") final String websafeQuizTagKey)
+      @Named("websafeQuestionTagKey") final String websafeQuestionTagKey)
       throws NotFoundException, UnauthorizedException {
     ApiUtils.checkSignedIn(user);
-    Key<QuizTag> quizTagKey = Key.create(websafeQuizTagKey);
-    QuizTag quizTag = ofy().load().key(quizTagKey).now();
-    if (quizTag == null) {
-      throw new NotFoundException("No tag found with key: " + websafeQuizTagKey);
+    Key<QuestionTag> questionTagKey = Key.create(websafeQuestionTagKey);
+    QuestionTag questionTag = ofy().load().key(questionTagKey).now();
+    if (questionTag == null) {
+      throw new NotFoundException("No tag found with key: " + websafeQuestionTagKey);
     } else {
-      ofy().delete().keys(quizTagKey).now();
+      ofy().delete().keys(questionTagKey).now();
     }
   }
 
@@ -466,25 +466,25 @@ public class MindTreeApi {
   }
 
   /**
-   * Returns all tags for a give quiz key.
+   * Returns all tags for a give question key.
    * In order to receive the web safe key via the JSON params, uses a POST method.
    *
    * @param user An user who invokes this method, null when the user is not signed in.
-   * @param websafeQuizKey The quiz key.
+   * @param websafeQuestionKey The question key.
    * @param limit The number of entities to return
-   * @return all quiz tags for a give quiz key.
+   * @return all question tags for a give question key.
    */
   @ApiMethod(
-      name = "getQuizTags",
-      path = "getQuizTags",
+      name = "getQuestionTags",
+      path = "getQuestionTags",
       httpMethod = HttpMethod.POST
   )
-  public List<QuizTag> getQuizTags(
+  public List<QuestionTag> getQuestionTags(
       final User user,
-      @Named("websafeQuizKey") final String websafeQuizKey,
+      @Named("websafeQuestionKey") final String websafeQuestionKey,
       @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
-    final Filter quizFilter =
-        new FilterPredicate("quizKey", FilterOperator.EQUAL, websafeQuizKey);
-    return ofy().load().type(QuizTag.class).filter(quizFilter).limit(limit).list();
+    final Filter questionFilter =
+        new FilterPredicate("questionKey", FilterOperator.EQUAL, websafeQuestionKey);
+    return ofy().load().type(QuestionTag.class).filter(questionFilter).limit(limit).list();
   }
 }
