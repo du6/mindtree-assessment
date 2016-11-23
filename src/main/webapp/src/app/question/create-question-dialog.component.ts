@@ -23,7 +23,7 @@ export class CreateQuestionDialog {
       this.optionB = new FormControl('', Validators.maxLength(100));
       this.optionC = new FormControl('', Validators.maxLength(100));
       this.optionD = new FormControl('', Validators.maxLength(100));
-      this.answer = 2;
+      this.answer = 2; //defaut to option C
 
       this.questionForm = _fb.group({
         description: this.description,
