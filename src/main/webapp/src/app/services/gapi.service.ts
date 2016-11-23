@@ -2,6 +2,7 @@ import { ANY_STATE } from '@angular/core/src/animation/animation_constants';
 import { Injectable } from '@angular/core';
 
 import { KnowledgeNode, KnowledgeEdge } from '../common/knowledge-node';
+import { Question } from '../common/question';
 
 // Google's login API namespace
 declare var gapi: { client: { mindTreeApi: any } };
@@ -64,5 +65,9 @@ export class GapiService {
       parentKey: fromNode,
       childKey: toNode,
     });
+  }
+
+  createQuestion(question: Question) {
+    return this.gapi_.client.mindTreeApi.createQuestion(question);
   }
 }

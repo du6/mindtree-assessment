@@ -1,0 +1,14 @@
+.create-question-dialog {
+  md-textarea,
+  md-input {
+    width: 100%;
+  }
+
+  .action-buttons {
+    margin-top: 20px;
+  }
+  
+  .create-button {
+    float: right;
+  }
+}

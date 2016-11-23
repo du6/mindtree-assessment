@@ -10,11 +10,13 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { KnowledgeGraphComponent } from './knowledgegraph/knowledge-graph.component';
 import { AddNodeDialog } from './knowledgegraph/add-node-dialog.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { QuestionComponent } from './question/question.component';
+import { CreateQuestionDialog } from './question/create-question-dialog.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
 
 const routes: Routes = [
- { path: 'quiz', component: QuizComponent },
+ { path: 'question', component: QuestionComponent },
  { path: '', component: KnowledgeGraphComponent },
 ];
 
@@ -33,9 +35,11 @@ const routes: Routes = [
     SidenavComponent, 
     KnowledgeGraphComponent, 
     AddNodeDialog,
-    QuizComponent
+    QuizComponent,
+    QuestionComponent,
+    CreateQuestionDialog,
   ],
-  entryComponents: [AddNodeDialog],
+  entryComponents: [AddNodeDialog, CreateQuestionDialog],
   bootstrap: [MindTreeAppComponent],
 })
 export class MindTreeAppModule { }

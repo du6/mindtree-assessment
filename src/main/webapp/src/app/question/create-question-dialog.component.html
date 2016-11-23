@@ -1,0 +1,22 @@
+<form [formGroup]="questionForm" (submit)="confirm($event)" class="create-question-dialog">
+  <md-textarea formControlName="description" type="text" placeholder="description (optional)" maxLength="500"></md-textarea>
+  <md-radio-group [(ngModel)]="answer" [ngModelOptions]="{standalone: true}">
+    <md-radio-button value="0">
+      <md-input formControlName="optionA" type="text" placeholder="option A" maxLength="100"></md-input>
+    </md-radio-button>
+    <md-radio-button value="1">
+      <md-input formControlName="optionB" type="text" placeholder="option B" maxLength="100"></md-input>
+    </md-radio-button>
+    <md-radio-button value="2">
+      <md-input formControlName="optionC" type="text" placeholder="option C" maxLength="100"></md-input>
+    </md-radio-button>
+    <md-radio-button value="3">
+      <md-input formControlName="optionD" type="text" placeholder="option D" maxLength="100"></md-input>
+    </md-radio-button>
+  </md-radio-group>
+
+  <div class="action-buttons">
+    <button md-raised-button color="primary" type="button" (click)="cancel($event)">Cancel</button>
+    <button md-raised-button color="primary" type="submit" class="create-button">Create</button>
+  </div>
+</form>

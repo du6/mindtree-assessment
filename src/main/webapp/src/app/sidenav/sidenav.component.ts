@@ -14,7 +14,7 @@ export class SidenavComponent {
     this._router.navigate(['/']);
   }
 
-  gotoQuiz() {
-    this._router.navigate(['/quiz']);
+  gotoQuestion() {
+    this._router.navigate(['/question']);
   }
 }

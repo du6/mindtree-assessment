@@ -76,14 +76,14 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
   public Question(Long id, String createdBy, QuestionForm questionForm) {
     this.id = id;
     this.createdBy = createdBy;
-    this.status = status.ACTIVE;
+    this.status = Status.ACTIVE;
     this.updateWithForm(questionForm);
   }
 
   @Override
   public void updateWithForm(QuestionForm questionForm) {
     this.description = questionForm.getDescription();
-    Collections.copy(this.options, questionForm.getOptions());
+    this.options = new ArrayList<>(questionForm.getOptions());
     this.answer = questionForm.getAnswer();
   }
 

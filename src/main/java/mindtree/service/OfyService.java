@@ -7,6 +7,7 @@ import com.googlecode.objectify.ObjectifyService;
 import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.domain.Profile;
+import main.java.mindtree.domain.Question;
 import main.java.mindtree.domain.Quiz;
 import main.java.mindtree.domain.QuestionTag;
 
@@ -23,6 +24,7 @@ public class OfyService {
         factory().register(Profile.class);
         factory().register(Quiz.class);
         factory().register(QuestionTag.class);
+        factory().register(Question.class);
     }
 
     /**
