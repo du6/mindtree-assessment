@@ -25,12 +25,14 @@ import javax.inject.Named;
 import main.java.mindtree.Constants;
 import main.java.mindtree.domain.Edge;
 import main.java.mindtree.domain.KnowledgeNode;
+import main.java.mindtree.domain.Question;
 import main.java.mindtree.domain.Quiz;
 import main.java.mindtree.domain.QuestionTag;
 import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
 import main.java.mindtree.domain.Profile;
 import main.java.mindtree.form.ProfileForm;
+import main.java.mindtree.form.QuestionForm;
 import main.java.mindtree.form.QuestionTagForm;
 import main.java.mindtree.form.QuizForm;
 
@@ -486,5 +488,71 @@ public class MindTreeApi {
     final Filter questionFilter =
         new FilterPredicate("questionKey", FilterOperator.EQUAL, websafeQuestionKey);
     return ofy().load().type(QuestionTag.class).filter(questionFilter).limit(limit).list();
+  }
+
+
+  /** Question API for demo **/
+
+
+  /**
+   * Creates a question
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param questionForm A QuestionForm object representing user's inputs.
+   * @throws UnauthorizedException when the user is not signed in.
+   */
+  @ApiMethod(
+      name = "createQuestion",
+      path = "createQuestion",
+      httpMethod = HttpMethod.POST)
+  public Question createQuestion(final User user, final QuestionForm questionForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (Question) ApiUtils.createEntity(user, questionForm, Question.class);
+  }
+
+  /**
+   * Deletes a question by marking it expired.
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param websafeQuestionKey The String representation of the key.
+   * @throws NotFoundException when there is no quiz with the given key.
+   * @throws UnauthorizedException when user is not logged in.
+   */
+  @ApiMethod(
+      name = "deleteQuestion",
+      path = "deleteQuestion/{websafeQuestionKey}",
+      httpMethod = HttpMethod.DELETE
+  )
+  public void deleteQuestion(
+      final User user,
+      @Named("websafeQuestionKey") final String websafeQuestionKey)
+      throws NotFoundException, UnauthorizedException {
+    ApiUtils.checkSignedIn(user);
+    Key<Question> questionKey = Key.create(websafeQuestionKey);
+    Question question = ofy().load().key(questionKey).now();
+    if (question == null) {
+      throw new NotFoundException("No question found with key: " + websafeQuestionKey);
+    } else {
+      question.delete();
+      ofy().save().entity(question).now();
+    }
+  }
+
+  /**
+   * Returns all active questions.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
+   *
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @param limit The number of entities to return
+   * @return all active questions.
+   */
+  @ApiMethod(
+      name = "getAllActiveQuestions",
+      path = "getAllActiveQuestions",
+      httpMethod = HttpMethod.POST
+  )
+  public List<Question> getAllActiveQuestions(
+      final User user,
+      @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
+    return ofy().load().type(Question.class).filter(Question.activeQuestionFilter()).limit(limit).list();
   }
 }
