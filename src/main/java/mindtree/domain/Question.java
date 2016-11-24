@@ -10,7 +10,6 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import main.java.mindtree.form.QuestionForm;
@@ -28,7 +27,7 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
     EXPIRED,
   }
 
-  // Only get active quiz
+  // Only get active questions
   public static Query.Filter activeQuestionFilter() {
     return new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, Status.ACTIVE.toString());
   }
@@ -48,6 +47,7 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
   /**
    * The status of the question.
    */
+  @Index
   private Status status;
 
   /**
@@ -70,7 +70,7 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
   /**
    * Constructor
    * @param id id of the question
-   * @param createdBy the user id who creates the quiz
+   * @param createdBy the user id who creates the question
    * @param questionForm the client side form
    */
   public Question(Long id, String createdBy, QuestionForm questionForm) {
@@ -122,4 +122,6 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
   public Status getStatus() {
     return status;
   }
+
+  private Question() {}
 }

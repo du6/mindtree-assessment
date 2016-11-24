@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { ANY_STATE } from '@angular/core/src/animation/animation_constants';
 import { Injectable } from '@angular/core';
 
@@ -39,6 +40,18 @@ export class GapiService {
               }
             }));
   }
+
+  loadAllQuestions(limit: number = GapiService.QUERY_LIMIT): Promise<Question[]> {
+    return new Promise((resolve, reject) => 
+        this.gapi_.client.mindTreeApi.getAllActiveQuestions({ limit: limit })
+            .execute((resp) => {
+              if (resp.error) {
+                reject(resp.error);
+              } else if (resp.result) {
+                resolve(<Question[]> resp.result.items);
+              }
+            }));
+  } 
 
   addNode(name?: string, description?: string): Promise<KnowledgeNode> {
     return this.gapi_.client.mindTreeApi.createKnowledgeNode({

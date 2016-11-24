@@ -1,0 +1,5 @@
+<md-list class="question-list">
+  <md-list-item *ngFor="let question of questions" [@fadeInOut]="'in'">
+    <div>{{question.description}}</div>
+  </md-list-item>
+</md-list>

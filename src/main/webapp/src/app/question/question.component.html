@@ -5,5 +5,9 @@
           (click)="openCreateQuestionDialog()">Create</button>
   <md-divider></md-divider>
   <md-card-content>
+    <md-spinner *ngIf="loadingList" class="question-loader"></md-spinner>
+    <mind-tree-question-list *ngIf="!loadingList" 
+        [questions]="questionList">
+    </mind-tree-question-list>
   </md-card-content>
 </md-card>
