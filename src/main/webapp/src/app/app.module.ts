@@ -12,6 +12,7 @@ import { AddNodeDialog } from './knowledgegraph/add-node-dialog.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question/question-list.component';
+import { QuestionItemComponent } from './question/question-item.component';
 import { CreateQuestionDialog } from './question/create-question-dialog.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
@@ -40,6 +41,7 @@ const routes: Routes = [
     QuestionComponent,
     CreateQuestionDialog,
     QuestionListComponent,
+    QuestionItemComponent,
   ],
   entryComponents: [AddNodeDialog, CreateQuestionDialog],
   bootstrap: [MindTreeAppComponent],

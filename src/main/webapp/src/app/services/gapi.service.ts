@@ -83,4 +83,10 @@ export class GapiService {
   createQuestion(question: Question) {
     return this.gapi_.client.mindTreeApi.createQuestion(question);
   }
+
+  deleteQuestion(questionKey: string) {
+    return this.gapi_.client.mindTreeApi.deleteQuestion({
+      websafeQuestionKey: questionKey
+    });
+  }
 }

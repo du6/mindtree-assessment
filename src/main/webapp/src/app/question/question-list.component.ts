@@ -51,4 +51,12 @@ export class QuestionListComponent {
 
   constructor(private gapi_: GapiService, private _snackbar: MdSnackBar) {
   }
+
+  onQuestionDeleted(question: Question) {
+    debugger;
+    const index = this.questions.findIndex(((q) => q.websafeKey == question.websafeKey));
+    if (index >= 0) {
+      this.questions = this.questions.delete(index);
+    }
+  }
 }
