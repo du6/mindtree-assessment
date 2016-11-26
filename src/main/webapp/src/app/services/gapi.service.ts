@@ -89,4 +89,10 @@ export class GapiService {
       websafeQuestionKey: questionKey
     });
   }
+
+  updateQuestion(question: Question) {
+    return this.gapi_.client.mindTreeApi.updateQuestion(Object.assign({
+      websafeQuestionKey: question.websafeKey,
+    }, question));
+  }
 }

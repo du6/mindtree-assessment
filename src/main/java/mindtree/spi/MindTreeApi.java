@@ -555,4 +555,29 @@ public class MindTreeApi {
       @Named("limit") @DefaultValue(DEFAULT_QUERY_LIMIT) final int limit) {
     return ofy().load().type(Question.class).filter(Question.activeQuestionFilter()).limit(limit).list();
   }
+
+  /**
+   * Updates the existing question with the given web safe key.
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param questionForm A QuestionForm object representing user's inputs.
+   * @param websafeQuestionKey The String representation of the web safe key.
+   * @return Updated Question object.
+   * @throws UnauthorizedException when the user is not signed in.
+   * @throws NotFoundException when there is no question with the given key.
+   */
+  @ApiMethod(
+      name = "updateQuestion",
+      path = "updateQuestion/{websafeQuestionKey}",
+      httpMethod = HttpMethod.PUT
+  )
+  public Question updateQuestion(
+      final User user,
+      final QuestionForm questionForm,
+      @Named("websafeQuestionKey")
+      final String websafeQuestionKey)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (Question) ApiUtils.updateEntity(
+        user, questionForm, websafeQuestionKey, Question.class);
+  }
 }

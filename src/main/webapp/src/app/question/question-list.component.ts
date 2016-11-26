@@ -53,10 +53,16 @@ export class QuestionListComponent {
   }
 
   onQuestionDeleted(question: Question) {
-    debugger;
     const index = this.questions.findIndex(((q) => q.websafeKey == question.websafeKey));
     if (index >= 0) {
       this.questions = this.questions.delete(index);
+    }
+  }
+
+  onQuestionUpdated(question: Question) {
+    const index = this.questions.findIndex(((q) => q.websafeKey == question.websafeKey));
+    if (index >= 0) {
+      this.questions[index] = question;
     }
   }
 }
