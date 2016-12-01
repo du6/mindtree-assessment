@@ -8,3 +8,16 @@ body {
 md-card {
   margin: 20px;
 }
+
+.create-question-dialog .md-radio-label {
+  width: 100%;
+}
+
+.create-question-dialog .md-radio-label-content {
+  width: 100%;
+}
+
+mind-tree-question-list md-list md-list-item .md-list-item {
+  height: 100%;
+  padding: 16px;
+}

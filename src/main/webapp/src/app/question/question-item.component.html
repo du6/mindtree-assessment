@@ -1,7 +1,25 @@
-<span>{{question.description}}</span>
-<button md-icon-button class="action-button edit-button" (click)=editQuestion()>
-  <md-icon class="md-24">edit</md-icon>
-</button>
-<button md-icon-button class="action-button delete-button" (click)=deleteQuestion()>
-  <md-icon class="md-24">delete</md-icon>
-</button>
+<div class="mind-tree-question-item">
+  <div>{{question.description}}</div>
+  <div class="action-buttons">
+    <button md-icon-button class="action-button edit-button" (click)=editQuestion()>
+      <md-icon class="md-24">edit</md-icon>
+    </button>
+    <button md-icon-button class="action-button delete-button" (click)=deleteQuestion()>
+      <md-icon class="md-24">delete</md-icon>
+    </button>
+    <button md-raised-button [md-menu-trigger-for]="knowledgeNodeMenu">
+      Tag Knowledge Nodes
+    </button>
+    <md-menu #knowledgeNodeMenu>
+      <button md-menu-item *ngFor="let knowledgeNode of knowledgeNodes | excludenodes:questionTags"
+          (click)="tagKnowledgeNode(knowledgeNode.websafeKey)"> 
+        {{knowledgeNode.name}} 
+      </button>
+  </md-menu>
+  </div>
+  <div>
+    <span class="question-tag" *ngFor="let tag of questionTags">
+      {{getNodeName(tag.nodeKey)}}
+    </span>
+  </div>
+</div>

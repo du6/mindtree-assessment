@@ -3,7 +3,7 @@ import { ANY_STATE } from '@angular/core/src/animation/animation_constants';
 import { Injectable } from '@angular/core';
 
 import { KnowledgeNode, KnowledgeEdge } from '../common/knowledge-node';
-import { Question } from '../common/question';
+import { Question, QuestionTag } from '../common/question';
 
 // Google's login API namespace
 declare var gapi: { client: { mindTreeApi: any } };
@@ -94,5 +94,28 @@ export class GapiService {
     return this.gapi_.client.mindTreeApi.updateQuestion(Object.assign({
       websafeQuestionKey: question.websafeKey,
     }, question));
+  }
+
+  getQuestionTags(
+    questionKey: string, 
+    limit: number = GapiService.QUERY_LIMIT): Promise<QuestionTag[]> {
+      return new Promise((resolve, reject) => 
+        this.gapi_.client.mindTreeApi.getQuestionTags({
+          websafeQuestionKey: questionKey,
+          limit: limit,
+        }).execute((resp) => {
+          if (resp.error) {
+            reject(resp.error);
+          } else if (resp.result) {
+            resolve(<QuestionTag[]> resp.result.items);
+          }
+        }));
+  }
+
+  addQuestionTag(nodeKey: string, questionKey: string): Promise<QuestionTag> {
+    return this.gapi_.client.mindTreeApi.createQuestionTag({
+      nodeKey: nodeKey,
+      questionKey: questionKey,
+    });
   }
 }

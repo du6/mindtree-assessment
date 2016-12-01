@@ -11,7 +11,8 @@ import { GapiService } from '../services/gapi.service';
 import { MdSnackBar } from '@angular/material';
 import { List } from 'immutable'
 
-import { Question } from '../common/question'
+import { Question } from '../common/question';
+import { KnowledgeNode } from '../common/knowledge-node';
 
 @Component({
   selector: 'mind-tree-question-list',
@@ -48,8 +49,16 @@ import { Question } from '../common/question'
 })
 export class QuestionListComponent {
   @Input() questions: List<Question>;
+  knowledgeNodes: List<KnowledgeNode>;
+  loading: boolean = true;
 
   constructor(private gapi_: GapiService, private _snackbar: MdSnackBar) {
+    this.loading = true;
+    this.gapi_.loadAllKnowledgeNodes().then(
+      (nodes) => {
+        this.knowledgeNodes = List<KnowledgeNode>(nodes);
+        this.loading = false;
+      });
   }
 
   onQuestionDeleted(question: Question) {
