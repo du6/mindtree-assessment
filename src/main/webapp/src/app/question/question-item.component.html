@@ -11,7 +11,7 @@
       Tag Knowledge Nodes
     </button>
     <md-menu #knowledgeNodeMenu>
-      <button md-menu-item *ngFor="let knowledgeNode of knowledgeNodes | excludenodes:questionTags"
+      <button md-menu-item *ngFor="let knowledgeNode of taggableKnowledgeNodes"
           (click)="tagKnowledgeNode(knowledgeNode.websafeKey)"> 
         {{knowledgeNode.name}} 
       </button>

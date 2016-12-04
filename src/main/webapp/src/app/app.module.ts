@@ -16,7 +16,6 @@ import { QuestionItemComponent } from './question/question-item.component';
 import { CreateQuestionDialog } from './question/create-question-dialog.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
-import { ExcludeNodesPipe} from './pipes/excludenodes.pipe';
 
 const routes: Routes = [
  { path: 'question', component: QuestionComponent },
@@ -43,7 +42,6 @@ const routes: Routes = [
     CreateQuestionDialog,
     QuestionListComponent,
     QuestionItemComponent,
-    ExcludeNodesPipe,
   ],
   entryComponents: [AddNodeDialog, CreateQuestionDialog],
   bootstrap: [MindTreeAppComponent],

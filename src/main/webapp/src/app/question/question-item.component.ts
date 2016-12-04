@@ -20,6 +20,7 @@ export class QuestionItemComponent {
   @Output() questionUpdated: EventEmitter<Question> = new EventEmitter();
   questionTags: List<QuestionTag> = List<QuestionTag>();
   nodeMap: Map<string, string> = new Map();
+  taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
 
   constructor(
     private gapi_:GapiService, 
@@ -29,8 +30,12 @@ export class QuestionItemComponent {
     }
 
   ngOnInit() {
-    this.gapi_.getQuestionTags(this.question.websafeKey).then(
-      (tags) => this.questionTags = List<QuestionTag>(tags));
+    this.gapi_.getQuestionTags(this.question.websafeKey).then((tags) => {
+      this.questionTags = List<QuestionTag>(tags);
+      this.taggableKnowledgeNodes = this.knowledgeNodes.filter(node => 
+        this.questionTags.findIndex(tag => tag.nodeKey == node.websafeKey) < 0
+      ).toList();
+    });
     
     this.knowledgeNodes.forEach((node) => this.nodeMap.set(node.websafeKey, node.name));
   }
@@ -62,8 +67,12 @@ export class QuestionItemComponent {
   }
 
   tagKnowledgeNode(nodeKey: string) {
-    this.gapi_.addQuestionTag(nodeKey, this.question.websafeKey).then((tag) => {
-      this.questionTags = this.questionTags.push(tag);
+    this.gapi_.addQuestionTag(nodeKey, this.question.websafeKey).then((data) => {
+      this.questionTags = this.questionTags.push(data.result);
+      const index = this.taggableKnowledgeNodes.findIndex(node => node.websafeKey == nodeKey);
+      if (index >= 0) {
+        this.taggableKnowledgeNodes = this.taggableKnowledgeNodes.delete(index);
+      }
     });
   }
 }

@@ -53,7 +53,7 @@ export class GapiService {
             }));
   } 
 
-  addNode(name?: string, description?: string): Promise<KnowledgeNode> {
+  addNode(name?: string, description?: string): Promise<any> {
     return this.gapi_.client.mindTreeApi.createKnowledgeNode({
       name: name,
       description: description,
@@ -112,7 +112,7 @@ export class GapiService {
         }));
   }
 
-  addQuestionTag(nodeKey: string, questionKey: string): Promise<QuestionTag> {
+  addQuestionTag(nodeKey: string, questionKey: string): Promise<{result: QuestionTag}> {
     return this.gapi_.client.mindTreeApi.createQuestionTag({
       nodeKey: nodeKey,
       questionKey: questionKey,
