@@ -18,8 +18,12 @@
   </md-menu>
   </div>
   <div class="question-tags">
-    <span class="question-tag" *ngFor="let tag of questionTags">
-      {{getNodeName(tag.nodeKey)}}
+    <span *ngFor="let tag of questionTags">
+      <mind-tree-question-tag 
+          [tag]="tag" 
+          [name]="getNodeName(tag.nodeKey)"
+          (tagDeleted)="onTagDeleted($event)">
+      </mind-tree-question-tag>
     </span>
   </div>
 </div>

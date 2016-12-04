@@ -8,4 +8,5 @@ export class Question {
 export class QuestionTag {
   nodeKey: string;
   questionKey: string;
+  websafeKey?: string;
 }

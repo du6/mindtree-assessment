@@ -13,6 +13,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question/question-list.component';
 import { QuestionItemComponent } from './question/question-item.component';
+import { QuestionTagComponent } from './question/question-tag.component';
 import { CreateQuestionDialog } from './question/create-question-dialog.component';
 import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
@@ -42,6 +43,7 @@ const routes: Routes = [
     CreateQuestionDialog,
     QuestionListComponent,
     QuestionItemComponent,
+    QuestionTagComponent,
   ],
   entryComponents: [AddNodeDialog, CreateQuestionDialog],
   bootstrap: [MindTreeAppComponent],

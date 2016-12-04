@@ -16,11 +16,11 @@ import { KnowledgeNode } from '../common/knowledge-node';
 export class QuestionItemComponent {
   @Input() question: Question;
   @Input() knowledgeNodes: List<KnowledgeNode>;
+  @Input() taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
+  @Input() questionTags: List<QuestionTag> = List<QuestionTag>();
   @Output() questionDeleted: EventEmitter<Question> = new EventEmitter();
   @Output() questionUpdated: EventEmitter<Question> = new EventEmitter();
-  questionTags: List<QuestionTag> = List<QuestionTag>();
-  nodeMap: Map<string, string> = new Map();
-  taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
+  nodeMap: Map<string, KnowledgeNode> = new Map();
 
   constructor(
     private gapi_:GapiService, 
@@ -37,11 +37,11 @@ export class QuestionItemComponent {
       ).toList();
     });
     
-    this.knowledgeNodes.forEach((node) => this.nodeMap.set(node.websafeKey, node.name));
+    this.knowledgeNodes.forEach((node) => this.nodeMap.set(node.websafeKey, node));
   }
 
   getNodeName(nodeKey: string): string {
-    return this.nodeMap.get(nodeKey);
+    return this.nodeMap.get(nodeKey).name;
   }
 
   deleteQuestion() {
@@ -74,5 +74,15 @@ export class QuestionItemComponent {
         this.taggableKnowledgeNodes = this.taggableKnowledgeNodes.delete(index);
       }
     });
+  }
+
+  onTagDeleted(tag: QuestionTag) {
+    const index = this.questionTags.findIndex(questionTag => questionTag.websafeKey == tag.websafeKey);
+    if (index >= 0) {
+      this.questionTags = this.questionTags.delete(index);
+    }
+    if (this.taggableKnowledgeNodes.findIndex(node => node.websafeKey == tag.nodeKey) < 0) {
+      this.taggableKnowledgeNodes = this.taggableKnowledgeNodes.push(this.nodeMap.get(tag.nodeKey));
+    }
   }
 }

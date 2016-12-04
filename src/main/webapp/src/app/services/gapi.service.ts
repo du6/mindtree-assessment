@@ -118,4 +118,10 @@ export class GapiService {
       questionKey: questionKey,
     });
   }
+
+  deleteQuestionTag(tagKey: string) {
+    return this.gapi_.client.mindTreeApi.deleteQuestionTag({
+      websafeQuestionTagKey: tagKey
+    });
+  }
 }
