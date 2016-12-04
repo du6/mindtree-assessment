@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgZone } from '@angular/core';
 
 import { GapiService } from '../services/gapi.service';
 import { QuestionTag } from '../common/question';
@@ -13,9 +13,10 @@ export class QuestionTagComponent {
   @Input() name: string;
   @Output() tagDeleted: EventEmitter<QuestionTag> = new EventEmitter();
 
-  constructor(private gapi_:GapiService) {}
+  constructor(private gapi_:GapiService, private ngZone_: NgZone) {}
 
   deleteTag() {
-    this.gapi_.deleteQuestionTag(this.tag.websafeKey).then(() => this.tagDeleted.emit(this.tag));
+    this.gapi_.deleteQuestionTag(this.tag.websafeKey).then(() => {
+      this.ngZone_.run(() => this.tagDeleted.emit(this.tag))});
   }
 }

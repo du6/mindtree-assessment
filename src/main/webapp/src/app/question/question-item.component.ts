@@ -16,8 +16,8 @@ import { KnowledgeNode } from '../common/knowledge-node';
 export class QuestionItemComponent {
   @Input() question: Question;
   @Input() knowledgeNodes: List<KnowledgeNode>;
-  @Input() taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
-  @Input() questionTags: List<QuestionTag> = List<QuestionTag>();
+  taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
+  questionTags: List<QuestionTag> = List<QuestionTag>();
   @Output() questionDeleted: EventEmitter<Question> = new EventEmitter();
   @Output() questionUpdated: EventEmitter<Question> = new EventEmitter();
   nodeMap: Map<string, KnowledgeNode> = new Map();
