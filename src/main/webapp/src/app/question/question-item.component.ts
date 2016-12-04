@@ -30,14 +30,14 @@ export class QuestionItemComponent {
     }
 
   ngOnInit() {
+    this.knowledgeNodes.forEach((node) => this.nodeMap.set(node.websafeKey, node));
+
     this.gapi_.getQuestionTags(this.question.websafeKey).then((tags) => {
-      this.questionTags = List<QuestionTag>(tags);
+      this.questionTags = List<QuestionTag>((tags || []).filter(tag => this.nodeMap.has(tag.nodeKey)));
       this.taggableKnowledgeNodes = this.knowledgeNodes.filter(node => 
         this.questionTags.findIndex(tag => tag.nodeKey == node.websafeKey) < 0
       ).toList();
     });
-    
-    this.knowledgeNodes.forEach((node) => this.nodeMap.set(node.websafeKey, node));
   }
 
   getNodeName(nodeKey: string): string {
