@@ -239,7 +239,7 @@ public class MindTreeApi {
   @ApiMethod(
       name = "deleteEdges",
       path = "deleteEdges",
-      httpMethod = HttpMethod.DELETE)
+      httpMethod = HttpMethod.POST)
   public void deleteEdges(final User user, final EdgeForm edgeForm)
       throws NotFoundException, UnauthorizedException {
     ApiUtils.checkSignedIn(user);
@@ -251,6 +251,10 @@ public class MindTreeApi {
         .filter(parentKeyFilter)
         .filter(childKeyFilter)
         .list();
+    if (edges.isEmpty()) {
+      throw new NotFoundException("No edge found for parent key " + edgeForm.getParentKey() +
+          ", and child key " + edgeForm.getChildKey());
+    }
     ofy().delete().entities(edges).now();
   }
 

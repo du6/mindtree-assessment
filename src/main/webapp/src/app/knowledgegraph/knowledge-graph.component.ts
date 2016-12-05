@@ -76,6 +76,21 @@ export class KnowledgeGraphComponent {
         arrows: 'to'
       },
 
+      layout: {
+        improvedLayout: false,
+        randomSeed: 2,
+        hierarchical: {
+          treeSpacing: 150,
+          nodeSpacing: 250,
+          sortMethod: 'directed',
+          direction: 'DU',
+        }
+      },
+
+      physics: {
+        enabled: false
+      },
+
       manipulation: {
         addNode: (nodeData, callback) => {
           this.openAddNodeDialog(nodeData, callback);
