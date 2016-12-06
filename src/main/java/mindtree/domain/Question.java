@@ -99,6 +99,10 @@ public class Question extends MindTreeEntity<Question, QuestionForm> {
     this.status = Status.EXPIRED;
   }
 
+  public boolean isActive() {
+    return this.status == Status.ACTIVE;
+  }
+
   public Long getId() {
     return id;
   }

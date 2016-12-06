@@ -3,7 +3,6 @@ package main.java.mindtree.form;
 /**
  * Pojo representing a Quiz form on the client side.
  */
-
 public class QuizForm implements MindTreeForm {
   /**
    * The name of the quiz.

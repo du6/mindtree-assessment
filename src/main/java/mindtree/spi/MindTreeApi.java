@@ -15,8 +15,10 @@ import com.google.appengine.api.users.User;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -28,6 +30,7 @@ import main.java.mindtree.domain.KnowledgeNode;
 import main.java.mindtree.domain.Question;
 import main.java.mindtree.domain.Quiz;
 import main.java.mindtree.domain.QuestionTag;
+import main.java.mindtree.domain.ReleasedQuestions;
 import main.java.mindtree.form.EdgeForm;
 import main.java.mindtree.form.KnowledgeNodeForm;
 import main.java.mindtree.domain.Profile;
@@ -35,6 +38,7 @@ import main.java.mindtree.form.ProfileForm;
 import main.java.mindtree.form.QuestionForm;
 import main.java.mindtree.form.QuestionTagForm;
 import main.java.mindtree.form.QuizForm;
+import main.java.mindtree.form.ReleasedQuestionsForm;
 
 import static main.java.mindtree.service.OfyService.ofy;
 
@@ -583,5 +587,65 @@ public class MindTreeApi {
       throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
     return (Question) ApiUtils.updateEntity(
         user, questionForm, websafeQuestionKey, Question.class);
+  }
+
+
+  /** API for released questions **/
+
+
+  /**
+   * Create released questions entity.
+   *
+   * @param user A user who invokes this method, null when the user is not signed in.
+   * @param releasedQuestionsForm A ReleasedQuestionsForm object representing user's inputs.
+   * @throws UnauthorizedException when the user is not signed in.
+   */
+  @ApiMethod(
+      name = "createRleasedQuestions",
+      path = "createRleasedQuestions",
+      httpMethod = HttpMethod.POST)
+  public ReleasedQuestions createReleasedQuestions(
+      final User user,
+      final ReleasedQuestionsForm releasedQuestionsForm)
+      throws UnauthorizedException, NotFoundException, ForbiddenException, ConflictException {
+    return (ReleasedQuestions) ApiUtils.createEntity(
+        user,
+        releasedQuestionsForm,
+        ReleasedQuestions.class);
+  }
+
+  /**
+   * Returns latest released questions.
+   * In order to receive the web safe key via the JSON params, uses a POST method.
+   *
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @return latest released questions.
+   */
+  @ApiMethod(
+      name = "getReleasedQuestions",
+      path = "getReleasedQuestions",
+      httpMethod = HttpMethod.POST
+  )
+  public List<Question> getReleasedQuestions(final User user) {
+    List<ReleasedQuestions> releasedQuestions =
+        ofy().load().type(ReleasedQuestions.class).order("-updatedOn").limit(1).list();
+    if (releasedQuestions == null || releasedQuestions.isEmpty()) {
+      return new ArrayList<>();
+    }
+    Set<String> questionWebsafeKeys = releasedQuestions.get(0).getQuestionKeys();
+    List<Key<Question>> questionKeys = new ArrayList<>();
+    for (String questionWebsafeKey : questionWebsafeKeys) {
+      Key<Question> questionKey = Key.create(questionWebsafeKey);
+      questionKeys.add(questionKey);
+    }
+    Map<Key<Question>, Question> questionsForKeys = ofy().load().keys(questionKeys);
+
+    List<Question> results = new ArrayList<>();
+    for (Question question : questionsForKeys.values()) {
+      if (question.isActive()) {
+        results.add(question);
+      }
+    }
+    return results;
   }
 }
