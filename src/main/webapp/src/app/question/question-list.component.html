@@ -1,9 +1,18 @@
-<md-list class="question-list" *ngIf="!loading">
+<md-list class="question-list" *ngIf="!loadingKnowledgeNodes && !loadingRleasedQuestions">
+  <button md-raised-button color="primary" 
+          class="edit-release-button"
+          (click)="toggleEditRelease()">
+    {{enableEditRelease ? "Save Release" : "Edit Release"}}
+  </button>
   <md-list-item *ngFor="let question of questions" [@fadeInOut]="'in'">
     <mind-tree-question-item 
         (questionDeleted)="onQuestionDeleted($event)"
         (questionUpdated)="onQuestionUpdated($event)"
+        (addRelease)="onAddRelease($event)"
+        (deleteRelease)="onDeleteRelease($event)"
         [knowledgeNodes]="knowledgeNodes"
-        [question]="question"></mind-tree-question-item>
+        [question]="question"
+        [isReleased]="isReleased(question)"
+        [enableEditRelease]="enableEditRelease"></mind-tree-question-item>
   </md-list-item>
 </md-list>

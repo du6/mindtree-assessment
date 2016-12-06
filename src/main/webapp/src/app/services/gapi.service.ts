@@ -53,6 +53,18 @@ export class GapiService {
             }));
   } 
 
+  loadReleasedQuestions(limit: number = GapiService.QUERY_LIMIT): Promise<Question[]> {
+    return new Promise((resolve, reject) => 
+        this.gapi_.client.mindTreeApi.getReleasedQuestions()
+            .execute((resp) => {
+              if (resp.error) {
+                reject(resp.error);
+              } else if (resp.result) {
+                resolve(<Question[]> resp.result.items);
+              }
+            }));
+  } 
+
   addNode(name?: string, description?: string): Promise<any> {
     return this.gapi_.client.mindTreeApi.createKnowledgeNode({
       name: name,
@@ -122,6 +134,12 @@ export class GapiService {
   deleteQuestionTag(tagKey: string) {
     return this.gapi_.client.mindTreeApi.deleteQuestionTag({
       websafeQuestionTagKey: tagKey
+    });
+  }
+
+  saveReleasedQuestions(questionKeys: Set<string>): Promise<any> {
+    return this.gapi_.client.mindTreeApi.createRleasedQuestions({
+      questionKeys: Array.from(questionKeys)
     });
   }
 }

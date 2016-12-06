@@ -1,5 +1,9 @@
 <div class="mind-tree-question-item">
-  <div>{{question.description}}</div>
+  <md-checkbox [disabled]="!enableEditRelease"
+      (change)="toggleRelease($event)"
+      [checked]="isReleased">
+      {{question.description}}
+  </md-checkbox>
   <div class="action-buttons">
     <button md-icon-button class="action-button edit-button" (click)=editQuestion()>
       <md-icon class="md-24">edit</md-icon>

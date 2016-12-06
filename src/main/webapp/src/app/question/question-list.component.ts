@@ -49,16 +49,27 @@ import { KnowledgeNode } from '../common/knowledge-node';
 })
 export class QuestionListComponent {
   @Input() questions: List<Question>;
+  enableEditRelease: boolean = false;
   knowledgeNodes: List<KnowledgeNode>;
-  loading: boolean = true;
+  loadingKnowledgeNodes: boolean = true;
+  loadingReleasedQuestions: boolean = true;
+  releasedQuestionKeys: Set<string> = new Set();
 
   constructor(private gapi_: GapiService, private _snackbar: MdSnackBar) {
-    this.loading = true;
+    this.loadingKnowledgeNodes = true;
     this.gapi_.loadAllKnowledgeNodes().then(
       (nodes) => {
         this.knowledgeNodes = List<KnowledgeNode>(nodes);
-        this.loading = false;
+        this.loadingKnowledgeNodes = false;
       });
+
+    this.loadingReleasedQuestions = true;
+    this.gapi_.loadReleasedQuestions().then(
+      (questions) => {
+        questions.forEach((question) => this.releasedQuestionKeys.add(question.websafeKey));
+        this.loadingReleasedQuestions = false;
+      }
+    )
   }
 
   onQuestionDeleted(question: Question) {
@@ -72,6 +83,28 @@ export class QuestionListComponent {
     const index = this.questions.findIndex(((q) => q.websafeKey == question.websafeKey));
     if (index >= 0) {
       this.questions[index] = question;
+    }
+  }
+
+  isReleased(question: Question) {
+    return this.releasedQuestionKeys.has(question.websafeKey);
+  }
+
+  onAddRelease(questionKey: string) {
+    this.releasedQuestionKeys.add(questionKey);
+  }
+  
+  onDeleteRelease(questionKey: string) {
+    this.releasedQuestionKeys.delete(questionKey);
+  }
+
+  toggleEditRelease() {
+    if (this.enableEditRelease) {
+      this.gapi_.saveReleasedQuestions(this.releasedQuestionKeys).then(
+        () => this.enableEditRelease = !this.enableEditRelease, 
+        (error) => this._snackbar.open("Failed to save release", "DISMISS"));
+    } else {
+      this.enableEditRelease = !this.enableEditRelease;
     }
   }
 }

@@ -16,10 +16,14 @@ import { KnowledgeNode } from '../common/knowledge-node';
 export class QuestionItemComponent {
   @Input() question: Question;
   @Input() knowledgeNodes: List<KnowledgeNode>;
+  @Input() isReleased: boolean;
+  @Input() enableEditRelease: boolean;
   taggableKnowledgeNodes: List<KnowledgeNode> = List<KnowledgeNode>();
   questionTags: List<QuestionTag> = List<QuestionTag>();
   @Output() questionDeleted: EventEmitter<Question> = new EventEmitter();
   @Output() questionUpdated: EventEmitter<Question> = new EventEmitter();
+  @Output() addRelease: EventEmitter<String> = new EventEmitter();
+  @Output() deleteRelease: EventEmitter<String> = new EventEmitter();
   nodeMap: Map<string, KnowledgeNode> = new Map();
 
   constructor(
@@ -84,5 +88,9 @@ export class QuestionItemComponent {
     if (this.taggableKnowledgeNodes.findIndex(node => node.websafeKey == tag.nodeKey) < 0) {
       this.taggableKnowledgeNodes = this.taggableKnowledgeNodes.push(this.nodeMap.get(tag.nodeKey));
     }
+  }
+
+  toggleRelease(event: {checked: boolean}) {
+    event.checked ? this.addRelease.emit(this.question.websafeKey) : this.deleteRelease.emit(this.question.websafeKey);
   }
 }
