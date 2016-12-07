@@ -12,10 +12,12 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.users.User;
+import com.google.appengine.repackaged.com.google.common.collect.ImmutableSet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -616,8 +618,6 @@ public class MindTreeApi {
 
   /**
    * Returns latest released questions.
-   * In order to receive the web safe key via the JSON params, uses a POST method.
-   *
    * @param user An user who invokes this method, null when the user is not signed in.
    * @return latest released questions.
    */
@@ -633,6 +633,10 @@ public class MindTreeApi {
       return new ArrayList<>();
     }
     Set<String> questionWebsafeKeys = releasedQuestions.get(0).getQuestionKeys();
+    return getQuestionsForWebsafeKeys(questionWebsafeKeys);
+  }
+
+  private List<Question> getQuestionsForWebsafeKeys(Set<String> questionWebsafeKeys) {
     List<Key<Question>> questionKeys = new ArrayList<>();
     for (String questionWebsafeKey : questionWebsafeKeys) {
       Key<Question> questionKey = Key.create(questionWebsafeKey);
@@ -647,5 +651,72 @@ public class MindTreeApi {
       }
     }
     return results;
+  }
+
+  /**
+   * Returns followup questions based on input questions.
+   * @param user An user who invokes this method, null when the user is not signed in.
+   * @return follow up questions.
+   */
+  @ApiMethod(
+      name = "getFollowupQuestions",
+      path = "getFollowupQuestions",
+      httpMethod = HttpMethod.POST
+  )
+  public List<Question> getFollowupQuestions(
+      final User user,
+      @Named("questionKeys") final List<String> questionKeys) {
+    ImmutableSet<String> inputQuestions = ImmutableSet.copyOf(questionKeys);
+    Set<String> followupQuestions = new HashSet<>();
+
+    for (String questionWebsafeKey : questionKeys) {
+      Set<String> nodeKeys = getNodesForQuestion(questionWebsafeKey);
+      LOG.info("Get node keys for " + questionWebsafeKey + " " + nodeKeys);
+      for (String nodeKey : nodeKeys) {
+        Set<String> parents = getParents(nodeKey);
+        LOG.info("Get parents for " + nodeKey+ " " + parents);
+        for (String parentKey : parents) {
+          Set<String> parentQuestionKeys = getQuestionsForNode(parentKey);
+          LOG.info("Get questions for " + parentKey + " " + parentQuestionKeys);
+          followupQuestions.addAll(parentQuestionKeys);
+        }
+      }
+    }
+
+    followupQuestions.removeAll(inputQuestions);
+    return getQuestionsForWebsafeKeys(followupQuestions);
+  }
+
+  private Set<String> getNodesForQuestion(String questionWebsafeKey) {
+    Set<String> nodeKeys = new HashSet<>();
+    final Filter questionFilter =
+        new FilterPredicate("questionKey", FilterOperator.EQUAL, questionWebsafeKey);
+    List<QuestionTag> tags = ofy().load().type(QuestionTag.class).filter(questionFilter).list();
+    for (QuestionTag tag : tags) {
+      nodeKeys.add(tag.getNodeKey());
+    }
+    return nodeKeys;
+  }
+
+  private Set<String> getParents(String nodeKey) {
+    Set<String> parentKeys = new HashSet<>();
+    final Filter childFilter =
+        new FilterPredicate("childKey", FilterOperator.EQUAL, nodeKey);
+    List<Edge> edges = ofy().load().type(Edge.class).filter(childFilter).list();
+    for (Edge edge : edges) {
+      parentKeys.add(edge.getParentKey());
+    }
+    return parentKeys;
+  }
+
+  private Set<String> getQuestionsForNode(String nodeKey) {
+    Set<String> questionKeys = new HashSet<>();
+    final Filter nodeFilter =
+        new FilterPredicate("nodeKey", FilterOperator.EQUAL, nodeKey);
+    List<QuestionTag> tags = ofy().load().type(QuestionTag.class).filter(nodeFilter).list();
+    for (QuestionTag tag : tags) {
+      questionKeys.add(tag.getQuestionKey());
+    }
+    return questionKeys;
   }
 }

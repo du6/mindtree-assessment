@@ -1,9 +1,19 @@
-<div class="mind-tree-quiz">
-  <md-list *ngIf="!loadingRleasedQuestions">
+<md-progress-circle mode="indeterminate" *ngIf="loadingQuestions" class="quiz-loader"></md-progress-circle>
+<div class="mind-tree-quiz" *ngIf="!loadingQuestions">
+  <md-list>
     <md-list-item *ngFor="let question of questions">
-      <mind-tree-quiz-item [question]="question">
+      <mind-tree-quiz-item 
+          [question]="question"
+          (correctAnswer)="onCorrectAnswer($event)"
+          (wrongAnswer)="onWrongAnswer($event)">
       </mind-tree-quiz-item>
     </md-list-item>
   </md-list>
-  <button md-raised-button color="primary" class="submit-button">Submit</button>
+  <button *ngIf="!questions.isEmpty()" 
+      md-raised-button color="primary" 
+      class="submit-button"
+      (click)="loadFollowupQuestions()">
+    Submit
+  </button>
+  <h3 *ngIf="questions.isEmpty()">Congratulations!</h3>
 </div>
