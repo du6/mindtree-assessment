@@ -13,6 +13,10 @@ md-textarea {
   width: 100%;
 }
 
+md-sidenav {
+  min-height: 200px;
+}
+
 .create-question-dialog .md-radio-label {
   width: 100%;
 }
@@ -22,6 +26,11 @@ md-textarea {
 }
 
 mind-tree-question-list md-list md-list-item .md-list-item {
+  height: 100%;
+  padding: 16px;
+}
+
+mind-tree-quiz md-list md-list-item .md-list-item {
   height: 100%;
   padding: 16px;
 }

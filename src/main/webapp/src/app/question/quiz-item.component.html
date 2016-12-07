@@ -1,0 +1,8 @@
+<div class="mind-tree-quiz-item">
+  <h3>{{question.description}}</h3>
+  <md-radio-group [(ngModel)]="answer">
+    <md-radio-button *ngFor="let option of question.options" [value]="getIndex(option)">
+      {{option}}
+    </md-radio-button>
+  </md-radio-group>
+</div>

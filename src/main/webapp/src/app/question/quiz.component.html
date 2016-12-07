@@ -1,0 +1,9 @@
+<div class="mind-tree-quiz">
+  <md-list *ngIf="!loadingRleasedQuestions">
+    <md-list-item *ngFor="let question of questions">
+      <mind-tree-quiz-item [question]="question">
+      </mind-tree-quiz-item>
+    </md-list-item>
+  </md-list>
+  <button md-raised-button color="primary" class="submit-button">Submit</button>
+</div>

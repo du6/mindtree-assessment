@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-item.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-item.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-item.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-item.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-list.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-list.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-list.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/question-list.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" />
-    </list>
+    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="" />
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

@@ -1,2 +1,7 @@
-<div class="mind-tree-home">
-</div>
+<md-card class="mind-tree-home">
+  <h3>Please select your role: </h3>
+  <md-radio-group [ngModel]="role" (change)=onRoleChange($event)>
+    <md-radio-button value="0">Teacher</md-radio-button>
+    <md-radio-button value="1">Student</md-radio-button>
+  </md-radio-group>
+</md-card>

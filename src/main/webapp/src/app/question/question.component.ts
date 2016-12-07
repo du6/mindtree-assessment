@@ -3,8 +3,9 @@ import { MdDialog, MdDialogRef, MdSnackBar } from '@angular/material';
 import { List } from 'immutable';
 
 import { GapiService } from '../services/gapi.service';
-import { CreateQuestionDialog } from './create-question-dialog.component'
-import { Question } from '../common/question'
+import { CreateQuestionDialog } from './create-question-dialog.component';
+import { Question } from '../common/question';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'mind-tree-question',
@@ -35,5 +36,9 @@ export class QuestionComponent {
         }, (error) => this._snackbar.open('Failed to save the question', 'DISMISS'));
       }
     })
+  }
+
+  isTeacher() {
+    return HomeComponent.isTeacher();
   }
 }

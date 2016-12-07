@@ -9,7 +9,8 @@ import { HomeComponent } from './home/home.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { KnowledgeGraphComponent } from './knowledgegraph/knowledge-graph.component';
 import { AddNodeDialog } from './knowledgegraph/add-node-dialog.component';
-import { QuizComponent } from './quiz/quiz.component';
+import { QuizComponent } from './question/quiz.component';
+import { QuizItemComponent } from './question/quiz-item.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question/question-list.component';
 import { QuestionItemComponent } from './question/question-item.component';
@@ -19,15 +20,17 @@ import { AuthService } from './services/auth.service';
 import { GapiService} from './services/gapi.service';
 
 const routes: Routes = [
- { path: 'question', component: QuestionComponent },
- { path: '', component: KnowledgeGraphComponent },
+  { path: 'question', component: QuestionComponent },
+  { path: 'graph', component: KnowledgeGraphComponent },
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({
   imports: [
     BrowserModule,
     MaterialModule.forRoot(),
-    RouterModule.forRoot(routes, { useHash: false }),
+    RouterModule.forRoot(routes, { useHash: true }),
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -39,6 +42,7 @@ const routes: Routes = [
     KnowledgeGraphComponent, 
     AddNodeDialog,
     QuizComponent,
+    QuizItemComponent,
     QuestionComponent,
     CreateQuestionDialog,
     QuestionListComponent,

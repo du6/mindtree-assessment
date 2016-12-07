@@ -1,4 +1,4 @@
-<md-card class="mind-tree-question">
+<md-card class="mind-tree-question" *ngIf="isTeacher()">
   <md-card-title class="mind-tree-question__title">Question Bank</md-card-title>
   <button md-raised-button color="primary" 
           class="mind-tree-question__create-button"
@@ -10,4 +10,8 @@
         [questions]="questionList">
     </mind-tree-question-list>
   </md-card-content>
+</md-card>
+
+<md-card class="mind-tree-question" *ngIf="!isTeacher()">
+  <mind-tree-quiz></mind-tree-quiz>
 </md-card>

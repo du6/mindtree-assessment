@@ -7,10 +7,10 @@ import {
   style,
   transition,
   animate } from '@angular/core';
-import { GapiService } from '../services/gapi.service';
 import { MdSnackBar } from '@angular/material';
-import { List } from 'immutable'
+import { List } from 'immutable';
 
+import { GapiService } from '../services/gapi.service';
 import { Question } from '../common/question';
 import { KnowledgeNode } from '../common/knowledge-node';
 
