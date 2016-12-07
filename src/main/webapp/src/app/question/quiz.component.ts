@@ -32,7 +32,9 @@ export class QuizComponent {
   }
 
   onWrongAnswer(questionKey: string) {
-    this.failedQuestionKeys = this.failedQuestionKeys.push(questionKey);
+    if (this.failedQuestionKeys.toArray().indexOf(questionKey) < 0) {
+      this.failedQuestionKeys = this.failedQuestionKeys.push(questionKey);
+    }
   }
 
   loadFollowupQuestions() {

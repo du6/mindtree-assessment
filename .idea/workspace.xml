@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" afterPath="$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz-item.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz-item.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz-item.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz-item.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.html" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.scss" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/question/quiz.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/src/app/services/gapi.service.ts" />
-    </list>
+    <list default="true" id="2e6d1031-7844-4083-a182-4db4e3ef03c8" name="Default" comment="" />
     <ignored path="mindtree-assessment.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +36,8 @@
       <file leaf-file-name="MindTreeApi.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="812">
-              <caret line="679" column="80" selection-start-line="679" selection-start-column="80" selection-end-line="679" selection-end-column="80" />
+            <state relative-caret-position="317">
+              <caret line="646" column="30" selection-start-line="646" selection-start-column="30" selection-end-line="646" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1243,8 +1235,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/mindtree/spi/MindTreeApi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="812">
-          <caret line="679" column="80" selection-start-line="679" selection-start-column="80" selection-end-line="679" selection-end-column="80" />
+        <state relative-caret-position="317">
+          <caret line="646" column="30" selection-start-line="646" selection-start-column="30" selection-end-line="646" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
